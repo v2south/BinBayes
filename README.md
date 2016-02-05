@@ -1,2 +1,2 @@
 # BinBayes
-# This is the appendix A
+## Appendix for implementaion in R
