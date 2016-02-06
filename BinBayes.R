@@ -1,4 +1,3 @@
-
 BinBayes <- function(m_data,model,link)
 {
   
@@ -38,7 +37,7 @@ BinBayes <- function(m_data,model,link)
     L1.bic<-BIC(L1)
     
     
-    ######## Compute the WAIC
+    #### Compute the WAIC
     L1<-'model {
     for (l in 1:n_obs) {
     y[l] ~ dbern(p[l])
