@@ -41,4 +41,39 @@ colClasses=c(’factor’,’factor’,’factor’,’numeric’))
 > # Remove cases with missing values
 > accuracy<-na.omit(accuracy)
 > accuracy
+> accuracy
+     subj itemID cond Acc
+1     S01   i001   UD   1
+2     S01   i002   RD   1
+3     S01   i003   UC   1
+4     S01   i004   RD   1
+5     S01   i005   RD   1
+6     S01   i006   UC   1
+7     S01   i007   RD   1
+8     S01   i008   UD   1
+9     S01   i009   RC   1
+10    S01   i010   UD   1
+11    S01   i011   UC   1
+12    S01   i012   RD   1
+13    S01   i013   UD   1
+.
+.
+.
+> M4_result <- BinBayes(accuracy, "M4", "Logit")
+> # BIC value
+> M4_result$bic
+[1] 2996.642
+> # WAIC value
+30
+> M4_result$waic
+[1] 2799.036
+> # The following is part of the Post_Summary
+> M4_result$post_summary[1:5,1:5]
+[[1]]
+          a[1]      a[2]       a[3]      a[4]        a[5]
+[1,] -1.872848 0.7381711 -1.7706177 0.3784899 -0.11543930
+[2,] -1.673983 0.8850012 -1.6350146 0.5198886  0.47122561
+[3,] -1.555514 0.4032484 -1.2782973 0.4250902  0.68646389
+[4,] -1.767328 1.3305617 -1.2789133 1.0805838  0.75447270
+[5,] -1.704587 2.8370053  0.4086459 0.3240679 -0.01821947
 ```
