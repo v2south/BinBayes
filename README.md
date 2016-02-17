@@ -13,3 +13,7 @@ For installation of these pacakages, please see this [manual](https://cran.r-pro
 The R function BinBayes.R requires three input variables as follows:
 
 * <strong> m_data </strong> is a matrix or dataframe containing the data from your study. This dataframe should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be labelled as *subj*, *itemID*, *cond*, *Acc* respectively.
+
+* <strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.
+* <strong> model </strong>  is a string taking five possible values as follows:
+  * "M1",baseline model with random subject and item effects with no effect of experimental condition.
