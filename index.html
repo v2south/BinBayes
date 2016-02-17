@@ -1,37 +1,25 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="A Bayesian Approach to Logistic/Probit Mixed Effects Analysis of Repeated Measures Accuracy Studies : Yin Song, Farouk Nathoo, Michael E. J. Masson">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>A Bayesian Approach to Logistic/Probit Mixed Effects Analysis of Repeated Measures Accuracy Studies</title>
+    <meta charset="UTF-8">
+    <title>A Bayesian Approach to Logistic/Probit Mixed Effects Analysis of Repeated Measures Accuracy Studies by v2south</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">A Bayesian Approach to Logistic/Probit Mixed Effects Analysis of Repeated Measures Accuracy Studies</h1>
+      <h2 class="project-tagline">Yin Song, Farouk Nathoo, Michael E. J. Masson</h2>
+      <a href="https://github.com/v2south/BinBayes" class="btn">View on GitHub</a>
+      <a href="https://github.com/v2south/BinBayes/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/v2south/BinBayes/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/v2south/BinBayes">View on GitHub</a>
-
-          <h1 id="project_title">A Bayesian Approach to Logistic/Probit Mixed Effects Analysis of Repeated Measures Accuracy Studies</h1>
-          <h2 id="project_tagline">Yin Song, Farouk Nathoo, Michael E. J. Masson</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/v2south/BinBayes/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/v2south/BinBayes/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
+    <section class="main-content">
+      <h1>
 <a id="binbayesr" class="anchor" href="#binbayesr" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>BinBayes.R</h1>
 
 <p>BinBayes.R is the software implementaion of Bayesian approach for the mixed effects analysis of accuracy studies using mixed binomial regression models. We will illustrated how to use BinBayes.R in the following two examples, including result interpretation and plotting.</p>
@@ -39,32 +27,47 @@
 <h2>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
 
-<p>We assume that the user has both the <a href="https://www.cran.r-project.org/">R</a> and <a href="http://mcmc-jags.sourceforge.net/">JAGS</a> software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require following three R packages.</p>
+<p>We assume that the user has both the <a href="https://www.cran.r-project.org/">R</a> and <a href="http://mcmc-jags.sourceforge.net/">JAGS</a> software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require following three R packages: <a href="https://cran.r-project.org/web/packages/coda/index.html"><strong>coda</strong></a>,<a href="https://cran.r-project.org/web/packages/lme4/index.html"> <strong>lme4</strong></a> and 
+<a href="https://cran.r-project.org/web/packages/rjags/index.html"><strong>rjags</strong></a>. 
+For installation of these pacakages, please see this <a href="https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages">manual</a> from CRAN. </p>
+
+<p>The R function BinBayes.R requires three input variables as follows:</p>
 
 <ul>
+<li><p><strong> m_data </strong> is a matrix or dataframe containing the data from your study. This dataframe should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be labelled as <em>subj</em>, <em>itemID</em>, <em>cond</em>, <em>Acc</em> respectively.</p></li>
+<li><p><strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.</p></li>
 <li>
-<strong>coda</strong>, which could be obtained at <a href="https://cran.r-project.org/web/packages/coda/index.html">CRAN</a>
-</li>
-<li>
-<strong>lme4</strong>, which could be obtained at <a href="https://cran.r-project.org/web/packages/lme4/index.html">CRAN</a>
-</li>
-<li>
-<strong>rjags</strong>, which could be obtained at <a href="https://cran.r-project.org/web/packages/rjags/index.html">CRAN</a>
+<strong> model </strong>  is a string taking five possible values as follows:
+
+<ul>
+<li>"M1",baseline model with random subject and item effects with no effect of experimental condition.</li>
+<li>"M2", model with random subject and item effects and with a fixed effect for the experimental condition.</li>
+<li>"M3", model with random subject and item effects and where the effect of experimental condition varies across subjects.</li>
+<li>"M4", Model with random subject and item effects and where the effect of experimental condition varies across items.</li>
+<li>"M5", Model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.</li>
+</ul>
 </li>
 </ul>
 
-<p>For installtion of these pacakages, please see this <a href="https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages">manual</a> from CRAN. </p>
-      </section>
-    </div>
+<p>As illustrated below, the output of the BinBayes.R function will consist of an object having three components with the following names:</p>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+<ul>
+<li>
+<strong>bic</strong> is the value of the BIC for the fitted model.</li>
+<li>
+<strong>waic</strong>  is the value of the WAIC for the fitted model.</li>
+<li>
+<strong>post_summary</strong> is an mcmc list containing samples from the posterior distribution for all components of the fitted model.</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/v2south/BinBayes">A Bayesian Approach to Logistic/Probit Mixed Effects Analysis of Repeated Measures Accuracy Studies</a> is maintained by <a href="https://github.com/v2south">v2south</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
