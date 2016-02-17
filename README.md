@@ -16,11 +16,11 @@ The R function BinBayes.R requires three input variables as follows:
 
 * <strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.
 * <strong> model </strong>  is a string taking five possible values as follows:
-  * "M1",baseline model with random subject and item effects with no effect of experimental condition.
+  * "M1", baseline model with random subject and item effects with no effect of experimental condition.
   * "M2", model with random subject and item effects and with a fixed effect for the experimental condition.
   * "M3", model with random subject and item effects and where the effect of experimental condition varies across subjects.
-  * "M4", Model with random subject and item effects and where the effect of experimental condition varies across items.
-  * "M5", Model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.
+  * "M4", model with random subject and item effects and where the effect of experimental condition varies across items.
+  * "M5", model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.
 
 
 As illustrated below, the output of the BinBayes.R function will consist of an object having three components with the following names:
