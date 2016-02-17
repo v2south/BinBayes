@@ -29,6 +29,7 @@ As illustrated below, the output of the BinBayes.R function will consist of an o
 * <strong>post_summary</strong> is an mcmc list containing samples from the posterior distribution for all components of the fitted model.
 
 ## How to use BinBayes.R
+The function BinBayes.R can be downloaed from [here](https://github.com/v2south/BinBayes/blob/master/BinBayes.R).
 ```
 > # Path is the file directory where you save the BinBayes.R
 > path <- "/Users/Yin/Dropbox/Bayes Factor/BinBayes.R"
