@@ -27,3 +27,18 @@ As illustrated below, the output of the BinBayes.R function will consist of an o
 * <strong>bic</strong> is the value of the BIC for the fitted model.
 * <strong>waic</strong>  is the value of the WAIC for the fitted model.
 * <strong>post_summary</strong> is an mcmc list containing samples from the posterior distribution for all components of the fitted model.
+
+## How to use BinBayes.R
+'''
+> # Path is the file directory where you save the BinBayes.R
+> path <- "/Users/Yin/Dropbox/Bayes Factor/BinBayes.R"
+> # Load BinBayes.R
+> source(path)
+> # Read the data into R
+> accuracy <- read.table("/Users/Yin/Dropbox/Bayes Factor/Prime3
+Bayesian.txt",header=TRUE, na.strings=’.’,
+colClasses=c(’factor’,’factor’,’factor’,’numeric’))
+> # Remove cases with missing values
+> accuracy<-na.omit(accuracy)
+> accuracy
+'''
