@@ -96,8 +96,13 @@ To create the boxplots and density plots summarizing the posterior dis- tributio
 
 ```
 > varnames(M4_result$post_summary)
-[1] "a[1]"
-[6] "a[6]"
+[1] "a[1]"         "a[2]"         "a[3]"         "a[4]"         "a[5]"          
+[6] "a[6]"         "a[7]"         "a[8]"         "a[9]"         "a[10]"         
+.
+.
+.
+[671] "b[67]"      "b[68]"        "b[69]"        "b[70]"        "b[71]"         
+[676] "b[72]"      "beta0"        "sigma_a"      "sigma_alpha_a" "sigma_b"   
 ```
 
 ## Example 1
