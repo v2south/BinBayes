@@ -82,7 +82,7 @@ Also, we can use the <strong>summary()</strong> function to get the posterior me
 ```
 > summary(M4_result$post_summary)
 ```
-To get the 95\% HPD interval, we can use the <strong>HPDinterval()</strong> functionas follows
+To get the 95% HPD interval, we can use the <strong>HPDinterval()</strong> functionas follows
 ```
 > HPDinterval(M4_result$post_summary)
 [[1]]
@@ -93,6 +93,12 @@ a[3]           -1.45065339  0.535163576
 a[4]           -0.71871493  1.922685809
 ```
 To create the boxplots and density plots summarizing the posterior dis- tribution, we can first use the varnames() function in R to see all the variable names in the post summary component of the fitted model. We then ex- tract the corresponding variables to create posterior density plots and item effect boxplots for the parameters that we are interested in. For example:
+
+```
+> varnames(M4_result$post_summary)
+[1] "a[1]"
+[6] "a[6]"
+```
 
 ## Example 1
 For this example, We were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. Dataset for this example could be downloaed from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt). 
