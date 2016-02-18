@@ -86,7 +86,7 @@ To get the 95% HPD interval, we can use the <strong>HPDinterval()</strong> funct
 ```
 > HPDinterval(M4_result$post_summary)
 [[1]]
-lower upper
+                   lower       upper
 a[1]           -2.37513723 -0.876461878
 a[2]           -0.42330027  2.542678120
 a[3]           -1.45065339  0.535163576
