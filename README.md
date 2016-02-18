@@ -124,8 +124,10 @@ b[72]          -0.47808 -0.069099  0.146281  0.371175  0.84990
 beta0           2.91566  3.111778  3.214427  3.322229  3.52518
 sigma_a         0.85684  0.970334  1.036779  1.107859  1.25747
 sigma_alpha_a   0.09272  0.199065  0.304277  0.418378  0.62032
-sigma_b         0.27230  0.384950  0.442368  0.501785  0.62098```
+sigma_b         0.27230  0.384950  0.442368  0.501785  0.62098
+```
 To get the 95% HPD interval, we can use the <strong>HPDinterval()</strong> functionas follows
+
 ```
 > HPDinterval(M4_result$post_summary)
 [[1]]
