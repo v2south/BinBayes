@@ -159,6 +159,38 @@ To get the posterior density for "sigma_a", which is standard deviation for rand
 > plot(M4_result$post_summary[,678])
 ```
 ![Posterior Plot](https://cloud.githubusercontent.com/assets/2337149/13296876/787467fa-dae4-11e5-9932-bea8a89596a1.png)
+To create boxplots of condition effect by item. We can do as follows:
+	*(1) Reformat the *post\_summary* part from result as a matrix by *as.matirx()* function.
+	*(2)Use *varnames()* function to locate the columns of fixed effect of condition and mix effect between item and condition for the specific condition.
+	*(3) Add the fixed condition effect to the corresponding mix effect columns.
+	*(4) Use *apply()* function to find the median of columns obtained in (c) and sort them by *order()* function.
+	*(5) Then use these ordered columns in (e) to create boxplot.
+
+We select the second condition(RD) in the R code demonstration below:
+```
+# Since we are looking at second condition, we need to find the location of alpha[2] and all alpha_a[2,]s.
+# By observing from varnames() result, we can see that alpha[2] is on the 122 column and all alpha_a[2,]s is located from 126 to 604 by every 4 columns.
+# We have 120 items for each condition
+> index <- seq(from=126, to=604, by=4)
+> rd_item <- as.matrix(M4_result$post_summary)[, index]
+> colnames(rd_item) <- seq(from=1,to=120)
+> # Fixed effect from second condition(RD)
+> alpha_2 <- as.matrix(M4_result$post_summary)[,122]
+> # Add the fixed effect to the mix effect
+> for(i in  1:120){
++   rd_item[,i] <- rd_item[,i] + alpha_2
++ }
+> # Sort the columns by median and get the index of sorted columns
+> t2 <- apply(rd_item,2, median)
+> order_index <- order(t2)
+> # Swap the columns and their column names
+> rd_item[,1:120] <- rd_item[,order_index]
+> colnames(rd_item) <- order_index
+> boxplot(rd_item,outline=FALSE,col="green")
+> abline(h=0,col="red")
+> title(main="RD effect by item")
+```
+![Boxplot of RD effect by Item](https://cloud.githubusercontent.com/assets/2337149/13300180/b19635fe-daf3-11e5-83e1-f1851c5bfacf.png)
 
 ## Example 1
 For this example, We were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. Dataset for this example could be downloaed from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt). 
