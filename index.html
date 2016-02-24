@@ -196,6 +196,43 @@ a[4]           -0.71871493  1.922685809
 
 <p><img src="https://cloud.githubusercontent.com/assets/2337149/13296876/787467fa-dae4-11e5-9932-bea8a89596a1.png" alt="Posterior Plot"></p>
 
+<p>To create boxplots of condition effect by item. We can do as follows:</p>
+
+<ul>
+<li> Reformat the <em>post_summary</em> part from result as a matrix by <em>as.matirx()</em> function.</li>
+<li>Use <em>varnames()</em> function to locate the columns of fixed effect of condition and mix effect between item and condition for the specific condition.</li>
+<li>Add the fixed condition effect to the corresponding mix effect columns.</li>
+<li>Use <em>apply()</em> function to find the median of columns obtained in (c) and sort them by <em>order()</em> function.</li>
+<li>Then use these ordered columns in (e) to create boxplot.</li>
+</ul>
+
+<p>We select the second condition(RD) in the R code demonstration below:</p>
+
+<pre><code># Since we are looking at second condition, we need to find the location of alpha[2] and all alpha_a[2,]s.
+# By observing from varnames() result, we can see that alpha[2] is on the 122 column and all alpha_a[2,]s is located from 126 to 604 by every 4 columns.
+# We have 120 items for each condition
+&gt; index &lt;- seq(from=126, to=604, by=4)
+&gt; rd_item &lt;- as.matrix(M4_result$post_summary)[, index]
+&gt; colnames(rd_item) &lt;- seq(from=1,to=120)
+&gt; # Fixed effect from second condition(RD)
+&gt; alpha_2 &lt;- as.matrix(M4_result$post_summary)[,122]
+&gt; # Add the fixed effect to the mix effect
+&gt; for(i in  1:120){
++   rd_item[,i] &lt;- rd_item[,i] + alpha_2
++ }
+&gt; # Sort the columns by median and get the index of sorted columns
+&gt; t2 &lt;- apply(rd_item,2, median)
+&gt; order_index &lt;- order(t2)
+&gt; # Swap the columns and their column names
+&gt; rd_item[,1:120] &lt;- rd_item[,order_index]
+&gt; colnames(rd_item) &lt;- order_index
+&gt; boxplot(rd_item,outline=FALSE,col="green")
+&gt; abline(h=0,col="red")
+&gt; title(main="RD effect by item")
+</code></pre>
+
+<p><img src="https://cloud.githubusercontent.com/assets/2337149/13300180/b19635fe-daf3-11e5-83e1-f1851c5bfacf.png" width="800"></p>
+
 <h2>
 <a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example 1</h2>
 
