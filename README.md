@@ -161,13 +161,14 @@ To get the posterior density for "sigma_a", which is standard deviation for rand
 ![Posterior Plot](https://cloud.githubusercontent.com/assets/2337149/13296876/787467fa-dae4-11e5-9932-bea8a89596a1.png)
 
 To create boxplots of condition effect by item. We can do as follows:
-	*  Reformat the *post\_summary* part from result as a matrix by *as.matirx()* function.
-	* Use *varnames()* function to locate the columns of fixed effect of condition and mix effect between item and condition for the specific condition.
-	* Add the fixed condition effect to the corresponding mix effect columns.
-	* Use *apply()* function to find the median of columns obtained in (c) and sort them by *order()* function.
-	* Then use these ordered columns in (e) to create boxplot.
+*  Reformat the *post\_summary* part from result as a matrix by *as.matirx()* function.
+* Use *varnames()* function to locate the columns of fixed effect of condition and mix effect between item and condition for the specific condition.
+* Add the fixed condition effect to the corresponding mix effect columns.
+* Use *apply()* function to find the median of columns obtained in (c) and sort them by *order()* function.
+* Then use these ordered columns in (e) to create boxplot.
 
 We select the second condition(RD) in the R code demonstration below:
+
 ```
 # Since we are looking at second condition, we need to find the location of alpha[2] and all alpha_a[2,]s.
 # By observing from varnames() result, we can see that alpha[2] is on the 122 column and all alpha_a[2,]s is located from 126 to 604 by every 4 columns.
