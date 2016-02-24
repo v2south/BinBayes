@@ -147,7 +147,14 @@ To create the boxplots and density plots summarizing the posterior dis- tributio
 .
 .
 [671] "b[67]"      "b[68]"        "b[69]"        "b[70]"        "b[71]"         
-[676] "b[72]"      "beta0"        "sigma_a"      "sigma_alpha_a" "sigma_b"   
+[676] "b[72]"      "beta0"        "sigma_a"      "sigma_alpha_a" "sigma_b"  
+
+```
+To get the posterior density for "sigma_a", which is standard deviation for random item effect, we need to find the location of  "sigma_a" in this mcmc list which is in column 678. Then we can get:
+
+```
+> plot(M4_result$post_summary[,678])
+
 ```
 
 ## Example 1
