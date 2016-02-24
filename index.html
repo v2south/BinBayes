@@ -182,8 +182,15 @@ a[4]           -0.71871493  1.922685809
 .
 .
 [671] "b[67]"      "b[68]"        "b[69]"        "b[70]"        "b[71]"         
-[676] "b[72]"      "beta0"        "sigma_a"      "sigma_alpha_a" "sigma_b"   
+[676] "b[72]"      "beta0"        "sigma_a"      "sigma_alpha_a" "sigma_b"  
 </code></pre>
+
+<p>To get the posterior density for "sigma_a", which is standard deviation for random item effect, we need to find the location of  "sigma_a" in this mcmc list which is in column 678. Then we can get:</p>
+
+<pre><code>&gt; plot(M4_result$post_summary[,678])
+</code></pre>
+
+<p><img src="https://cloud.githubusercontent.com/assets/2337149/13296876/787467fa-dae4-11e5-9932-bea8a89596a1.png" alt="Posterior Plot"></p>
 
 <h2>
 <a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example 1</h2>
