@@ -63,7 +63,7 @@ For installation of these pacakages, please see this <a href="https://cran.r-pro
 <h2>
 <a id="how-to-use-binbayesr" class="anchor" href="#how-to-use-binbayesr" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use BinBayes.R</h2>
 
-<p>The function BinBayes.R can be downloaed from <a href="https://github.com/v2south/BinBayes/blob/master/BinBayes.R">here</a>.</p>
+<p>The function BinBayes.R can be downloaed from <a href="https://github.com/v2south/BinBayes/blob/master/BinBayes.R">here</a>. To get start, Let's set up the path that we save BinBayes.R and all the datasets. For example:</p>
 
 <pre><code>&gt; # Path is the file directory where you save the BinBayes.R
 &gt; path &lt;- "/Users/Yin/Dropbox/Bayes Factor/BinBayes.R"
@@ -94,7 +94,11 @@ colClasses=c(’factor’,’factor’,’factor’,’numeric’))
 .
 .
 .
-&gt; M4_result &lt;- BinBayes(accuracy, "M4", "Logit")
+</code></pre>
+
+<p>Now, we can apply BinBaye.R to specific model:</p>
+
+<pre><code>&gt; M4_result &lt;- BinBayes(accuracy, "M4", "Logit")
 &gt; # BIC value
 &gt; M4_result$bic
 [1] 2996.642
