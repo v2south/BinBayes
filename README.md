@@ -160,11 +160,12 @@ To get the posterior density for "sigma_a", which is standard deviation for rand
 ```
 ![Posterior Plot](https://cloud.githubusercontent.com/assets/2337149/13296876/787467fa-dae4-11e5-9932-bea8a89596a1.png)
 To create boxplots of condition effect by item. We can do as follows:
+
 	*(1) Reformat the *post\_summary* part from result as a matrix by *as.matirx()* function.
-	*(2)Use *varnames()* function to locate the columns of fixed effect of condition and mix effect between item and condition for the specific condition.
-	*(3) Add the fixed condition effect to the corresponding mix effect columns.
-	*(4) Use *apply()* function to find the median of columns obtained in (c) and sort them by *order()* function.
-	*(5) Then use these ordered columns in (e) to create boxplot.
+	* Use *varnames()* function to locate the columns of fixed effect of condition and mix effect between item and condition for the specific condition.
+	* Add the fixed condition effect to the corresponding mix effect columns.
+	* Use *apply()* function to find the median of columns obtained in (c) and sort them by *order()* function.
+	* Then use these ordered columns in (e) to create boxplot.
 
 We select the second condition(RD) in the R code demonstration below:
 ```
