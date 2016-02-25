@@ -1,6 +1,6 @@
 # BinBayes.R
 
-BinBayes.R is the software implementaion of Bayesian approach for the mixed effects analysis of accuracy studies using mixed binomial regression models. We will illustrated how to use BinBayes.R in the following two examples, including result interpretation and plotting.
+BinBayes.R is the software implementaion of Bayesian approach for the mixed effects analysis of accuracy studies using mixed binomial regression models. 
 
 ## Introduction 
 
