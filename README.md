@@ -6,13 +6,13 @@ BinBayes.R is the software implementation of Bayesian approach for the mixed eff
 
 We assume that the user has both the [R](https://cran.r-project.org/mirrors.html) and [JAGS](http://mcmc-jags.sourceforge.net/) software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require following three R packages: [<strong>coda</strong>](https://cran.r-project.org/web/packages/coda/index.html),[ <strong>lme4</strong>](https://cran.r-project.org/web/packages/lme4/index.html) and 
 [<strong>rjags</strong>] (https://cran.r-project.org/web/packages/rjags/index.html). 
-For installation of these pacakages, please see this [manual](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) from CRAN. 
+For installation of these packages, please see this [manual](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) from CRAN. 
 
 
 
 The R function BinBayes.R requires three input variables as follows:
 
-* <strong> m_data </strong> is a matrix or dataframe containing the data from your study. This dataframe should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be labelled as *subj*, *itemID*, *cond*, *Acc* respectively.
+* <strong> m_data </strong> is a matrix or data frame containing the data from your study. This data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be labelled as *subj*, *itemID*, *cond*, *Acc* respectively.
 
 * <strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.
 * <strong> model </strong>  is a string taking five possible values as follows:
@@ -29,7 +29,7 @@ As illustrated below, the output of the BinBayes.R function will consist of an o
 * <strong>post_summary</strong> is an mcmc list containing samples from the posterior distribution for all components of the fitted model.
 
 ## How to use BinBayes.R
-The function BinBayes.R can be downloaed from [here](https://github.com/v2south/BinBayes/blob/master/BinBayes.R). To get start, Let's set up the path that we save BinBayes.R and all the datasets. For example:
+The function BinBayes.R can be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/BinBayes.R). To get start, Let's set up the path that we save BinBayes.R and all the datasets. For example:
 ```
 > # Path is the file directory where you save the BinBayes.R
 > path <- "/Users/Yin/Dropbox/Bayes Factor/BinBayes.R"
@@ -141,7 +141,7 @@ a[2]           -0.42330027  2.542678120
 a[3]           -1.45065339  0.535163576
 a[4]           -0.71871493  1.922685809
 ```
-To create the boxplots and density plots summarizing the posterior dis- tribution, we can first use the varnames() function in R to see all the variable names in the post summary component of the fitted model. We then ex- tract the corresponding variables to create posterior density plots and item effect boxplots for the parameters that we are interested in. For example:
+To create the boxplots and density plots summarizing the posterior distribution, we can first use the varnames() function in R to see all the variable names in the post summary component of the fitted model. We then ex- tract the corresponding variables to create posterior density plots and item effect boxplots for the parameters that we are interested in. For example:
 
 ```
 > varnames(M4_result$post_summary)
@@ -160,14 +160,14 @@ To get the posterior density for "sigma_a", which is standard deviation for rand
 ```
 ![Posterior Plot](https://cloud.githubusercontent.com/assets/2337149/13296876/787467fa-dae4-11e5-9932-bea8a89596a1.png)
 
-To create boxplots of condition effect by item. We can do as follows:
+To create boxplots of condition effect by item, we can do as follows:
 *  Reformat the *post\_summary* part from result as a matrix by *as.matirx()* function.
 * Use *varnames()* function to locate the columns of fixed effect of condition and mix effect between item and condition for the specific condition.
 * Add the fixed condition effect to the corresponding mix effect columns.
 * Use *apply()* function to find the median of columns obtained in (c) and sort them by *order()* function.
 * Then use these ordered columns in (e) to create boxplot.
 
-We select the second condition(RD) in the R code demonstration below:
+We select the second condition (RD) in the R code demonstration below:
 
 ```
 # Since we are looking at second condition, we need to find the location of alpha[2] and all alpha_a[2,]s.
@@ -194,10 +194,11 @@ We select the second condition(RD) in the R code demonstration below:
 ```
 <img src="https://cloud.githubusercontent.com/assets/2337149/13300180/b19635fe-daf3-11e5-83e1-f1851c5bfacf.png" width="800">
 ## Example 1
-For this example, We were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. Dataset for this example could be downloaed from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt). 
+For this example, We were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. Dataset for this example could be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt). 
 
 ## Example 2
-For this example, We were investigating the influence of a semantic context on the identification of printed words shown either under clear (high contrast) or degraded (low contrast) conditions. The semantic context consisted of a prime word presented in advance of the target item. On critical trials, the target item was a word and on other trials the target was a nonword. The task was to classify the target on each trial as a word or a nonword (this is called a "lexical decision" task). Our interest is confined to trials with word targets. The prime word was either semantically related or unrelated to the target word (e.g., granite-STONE vs. attack-FLOWER), and the target word was presented either in clear or degraded form. Combining these two factors produced four conditions (related-clear, unrelated-clear, related-degraded, unrelated-degraded). For the current analysis, accuracy of response was the dependent measure.  Dataset for this example could be downloaed from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Prime3_Bayesian.txt). 
+For this example, We were investigating the influence of a semantic context on the identification of printed words shown either under clear (high contrast) or degraded (low contrast) conditions. The semantic context consisted of a prime word presented in advance of the target item. On critical trials, the target item was a word and on other trials the target was a nonword. The task was to classify the target on each trial as a word or a nonword (this is called a "lexical decision" task). Our interest is confined to trials with word targets. The prime word was either semantically related or unrelated to the target word (e.g., granite-STONE vs. attack-FLOWER), and the target word was presented either in clear or degraded form. Combining these two factors produced four conditions (related-clear, unrelated-clear, related-degraded, unrelated-degraded). For the current analysis, accuracy of response was the dependent measure.  Dataset for this example could be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Prime3_Bayesian.txt). 
 
 
 ## Future Work 
+
