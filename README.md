@@ -4,9 +4,9 @@ BinBayes.R is the software implementation of Bayesian approach for the mixed eff
 
 ## Introduction 
 
-We assume that the user has both the [R](https://cran.r-project.org/mirrors.html) and [JAGS](http://mcmc-jags.sourceforge.net/) software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require following three R packages: [<strong>coda</strong>](https://cran.r-project.org/web/packages/coda/index.html),[ <strong>lme4</strong>](https://cran.r-project.org/web/packages/lme4/index.html) and 
+We assume that the user has both the [R](https://cran.r-project.org/mirrors.html) and [JAGS](http://mcmc-jags.sourceforge.net/) software packages installed and is familiar with the basic structure and syntax of the R language.In addition, we also require following three R packages: [<strong>coda</strong>](https://cran.r-project.org/web/packages/coda/index.html),[ <strong>lme4</strong>](https://cran.r-project.org/web/packages/lme4/index.html) and 
 [<strong>rjags</strong>] (https://cran.r-project.org/web/packages/rjags/index.html). 
-For installation of these packages, please see this [manual](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) from CRAN. 
+To install these R packages, please see this [manual](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) from CRAN. 
 
 
 
@@ -29,49 +29,39 @@ As illustrated below, the output of the BinBayes.R function will consist of an o
 * <strong>post_summary</strong> is an mcmc list containing samples from the posterior distribution for all components of the fitted model.
 
 ## How to use BinBayes.R
-The function BinBayes.R can be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/BinBayes.R). To get start, Let's set up the path that we save BinBayes.R and all the datasets. For example:
+First of all, let's download BinBayes.R from [here](https://github.com/v2south/BinBayes/blob/master/BinBayes.R). Dataset files should be saved in the same directory or folder as well. For exmaple:
+
 ```
 > # Path is the file directory where you save the BinBayes.R
 > path <- "/Users/Yin/Dropbox/Bayes Factor/BinBayes.R"
-> # Load BinBayes.R
-> source(path)
 > # Read the data into R
 > accuracy <- read.table("/Users/Yin/Dropbox/Bayes Factor/Prime3
 Bayesian.txt",header=TRUE, na.strings=’.’,
 colClasses=c(’factor’,’factor’,’factor’,’numeric’))
-> # Remove cases with missing values
-> accuracy<-na.omit(accuracy)
-> accuracy
-> accuracy
-     subj itemID cond Acc
-1     S01   i001   UD   1
-2     S01   i002   RD   1
-3     S01   i003   UC   1
-4     S01   i004   RD   1
-5     S01   i005   RD   1
-6     S01   i006   UC   1
-7     S01   i007   RD   1
-8     S01   i008   UD   1
-9     S01   i009   RC   1
-10    S01   i010   UD   1
-11    S01   i011   UC   1
-12    S01   i012   RD   1
-13    S01   i013   UD   1
-.
-.
-.
 ```
-Now, we can apply BinBaye.R to specific model:
+Then, we need to *source* the path we just set to load BinBayes.R
+```
+> # Load BinBayes.R
+> source(path)
+```
+
+Now, we can apply BinBaye.R to specific model, such as Model 4 with Logit as link function.
 
 ```
 > M4_result <- BinBayes(accuracy, "M4", "Logit")
-> # BIC value
+```
+For BIC value:
+```
 > M4_result$bic
 [1] 2996.642
-> # WAIC value
-30
+```
+For WAIC value:
+```
 > M4_result$waic
 [1] 2799.036
+```
+Samples of Posterior distribution for all components of the fitted model can also be obtained as:
+```
 > # The following is part of the Post_Summary
 > M4_result$post_summary[1:5,1:5]
 [[1]]
@@ -81,7 +71,11 @@ Now, we can apply BinBaye.R to specific model:
 [3,] -1.555514 0.4032484 -1.2782973 0.4250902  0.68646389
 [4,] -1.767328 1.3305617 -1.2789133 1.0805838  0.75447270
 [5,] -1.704587 2.8370053  0.4086459 0.3240679 -0.01821947
+.
+.
+.
 ```
+
 Also, we can use the <strong>summary()</strong> function to get the posterior mean, posterior quantiles, and so on.
 ```
 > summary(M4_result$post_summary)
