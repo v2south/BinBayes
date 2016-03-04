@@ -82,7 +82,8 @@ Suppose we are interested Model 4 with Logit as link function. We can compute th
 [1] 2799.036
  
 ```
-We can also summarize the posterior distribution of L4 with <strong>summary()<strong> function as:
+We can also summarize the posterior distribution of L4 with <strong>summary()</strong> function as:
+
 ```
 > summary(M4_result$post_summary)
                        Mean         SD     Naive SE Time-series SE
@@ -135,15 +136,29 @@ The notations for each model compoent are:
 
 <center>
 
-|    alpha[i]   |                  Fixed Effect from Condition[i]                 |
-|:-------------:|:---------------------------------------------------------------:|
-|      a[j]     |                    Random Effect from Item[j]                   |
-|      b[k]     |                  Random Effect from Subject[k]                  |
-|     beta0     |                         Model Intercept                         |
-| sigma_alpha_a | Standard Deviation for Random Effect between Condition and Item |
-|    sigma_b    |           Standard Deviation for Random Subject Effect          |
-|    sigma_a    |            Standard Deviation for Random Item Effect            |
+| Model Component |                           Explanation                           |
+|:---------------:|:---------------------------------------------------------------:|
+|     alpha[i]    |                  Fixed Effect from Condition[i]                 |
+|       a[j]      |                    Random Effect from Item[j]                   |
+|       b[k]      |                  Random Effect from Subject[k]                  |
+|      beta0      |                         Model Intercept                         |
+|  sigma_alpha_a  | Standard Deviation for Random Effect between Condition and Item |
+|     sigma_b     |           Standard Deviation for Random Subject Effect          |
+|     sigma_a     |            Standard Deviation for Random Item Effect            |
 
 </center>
 
-
+To get the 95% HPD interval, we can use the <strong>HPDinterval()</strong> functionas follows
+```
+> HPDinterval(M4_result$post_summary)
+[[1]]
+                   lower       upper
+a[1]           -2.37513723 -0.876461878
+a[2]           -0.42330027  2.542678120
+a[3]           -1.45065339  0.535163576
+a[4]           -0.71871493  1.922685809
+.
+.
+.
+.
+```
