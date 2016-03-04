@@ -215,7 +215,7 @@ sigma_b         0.27230  0.384950  0.442368  0.501785  0.62098
 
 <p></p>
 
-<p>To get the 95% HPD interval, we can use the <strong>HPDinterval()</strong> functionas follows</p>
+<p>To get the 95% HPD interval from posterior distribution, we can use the <strong>HPDinterval()</strong> function as:</p>
 
 <pre><code>&gt; HPDinterval(M4_result$post_summary)
 [[1]]
@@ -229,6 +229,66 @@ a[4]           -0.71871493  1.922685809
 .
 .
 </code></pre>
+
+<p>To create the density plots and boxplots summarizing the posterior distribution, in particular the condition effects, we can first use the <strong>varnames()</strong> function in R to see all the variable names in the post summary component of the fitted model. We then extract the corresponding variables to create posterior density plots and item effect boxplots for the parameters that we are interested in.</p>
+
+<pre><code>&gt; varnames(M4_result$post_summary)
+[1] "a[1]"         "a[2]"         "a[3]"         "a[4]"         "a[5]"          
+[6] "a[6]"         "a[7]"         "a[8]"         "a[9]"         "a[10]"         
+.
+.
+.
+[671] "b[67]"      "b[68]"        "b[69]"        "b[70]"        "b[71]"         
+[676] "b[72]"      "beta0"        "sigma_a"      "sigma_alpha_a" "sigma_b"  
+</code></pre>
+
+<p>To get the posterior density for "sigma_a", which is standard deviation for random item effect, we need to find the location of  "sigma_a" in this mcmc list which is in column 678. Then we can get:</p>
+
+<pre><code>&gt; plot(M4_result$post_summary[,678])
+</code></pre>
+
+<p><img src="https://cloud.githubusercontent.com/assets/2337149/13296876/787467fa-dae4-11e5-9932-bea8a89596a1.png" alt="Posterior Plot"></p>
+
+<p>To create boxplots of condition effect by item, we can do as follows:</p>
+
+<ol>
+<li>Reformat the <em>post_summary</em> part from result as a matrix by <em>as.matirx()</em> function.</li>
+<li>Use <em>varnames()</em> function to locate the columns of fixed effect of condition and mix effect between item and condition for the specific condition.</li>
+<li>Add the fixed condition effect to the corresponding mix effect columns.</li>
+<li>Use <em>apply()</em> function to find the median of columns obtained in (3) and sort them by <em>order()</em> function.</li>
+<li>Then use these ordered columns in (4) to create boxplot.</li>
+</ol>
+
+<p>We select the second condition (RD) in the demonstration below:</p>
+
+<pre><code># Since we are looking at second condition, we need to find the location of alpha[2] and all alpha_a[2,]s.
+# By observing from varnames() result, we can see that alpha[2] is on the 122 column and all alpha_a[2,]s is located from 126 to 604 by every 4 columns.
+# We have 120 items for each condition
+&gt; index &lt;- seq(from=126, to=604, by=4)
+&gt; rd_item &lt;- as.matrix(M4_result$post_summary)[, index]
+
+&gt; colnames(rd_item) &lt;- seq(from=1,to=120)
+
+&gt; # Fixed effect from second condition(RD)
+&gt; alpha_2 &lt;- as.matrix(M4_result$post_summary)[,122]
+&gt; # Add the fixed effect to the mix effect
+
+&gt; for(i in  1:120){
++   rd_item[,i] &lt;- rd_item[,i] + alpha_2
++ }
+&gt; # Sort the columns by median and get the index of sorted columns
+&gt; t2 &lt;- apply(rd_item,2, median)
+&gt; order_index &lt;- order(t2)
+
+&gt; # Swap the columns and their column names
+&gt; rd_item[,1:120] &lt;- rd_item[,order_index]
+&gt; colnames(rd_item) &lt;- order_index
+&gt; boxplot(rd_item,outline=FALSE,col="green")
+&gt; abline(h=0,col="red")
+&gt; title(main="RD effect by item")
+</code></pre>
+
+<p><img src="https://cloud.githubusercontent.com/assets/2337149/13300180/b19635fe-daf3-11e5-83e1-f1851c5bfacf.png" width="800"></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/v2south/BinBayes">A Bayesian Approach to Logistic/Probit Mixed Effects Analysis of Repeated Measures Accuracy Studies</a> is maintained by <a href="https://github.com/v2south">v2south</a>.</span>
