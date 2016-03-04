@@ -162,7 +162,7 @@ a[4]           -0.71871493  1.922685809
 .
 .
 ```
-To create the density plots and boxplots summarizing the posterior distribution, in particular the condition effects, we can first use the varnames() function in R to see all the variable names in the post summary component of the fitted model. We then extract the corresponding variables to create posterior density plots and item effect boxplots for the parameters that we are interested in.
+To create the density plots and boxplots summarizing the posterior distribution, in particular the condition effects, we can first use the <strong>varnames()</strong> function in R to see all the variable names in the post summary component of the fitted model. We then extract the corresponding variables to create posterior density plots and item effect boxplots for the parameters that we are interested in.
 
 ```
 > varnames(M4_result$post_summary)
