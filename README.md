@@ -70,7 +70,7 @@ To get started, Let's download the BinBaye.R from [here](https://github.com/v2so
 .
 
 ```
-Suppose we are interested Model 4 with Logit as link function. We can compute the BIC and WAIC values as:
+Suppose we are interested in Model 4 with Logit as link function. We can compute the BIC and WAIC values as:
 ```
  # Model 4 with Logit link
 > L4_result <- BinBayes(accuracy, "M4", "Logit")
