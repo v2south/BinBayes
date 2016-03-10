@@ -5,7 +5,7 @@ BinBayes.R is the software implementation of Bayesian approach for the mixed eff
 ## Introduction 
 
 We assume that the user has both the [R](https://cran.r-project.org/mirrors.html) and [JAGS](http://mcmc-jags.sourceforge.net/) software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require following three R packages: [<strong>coda</strong>](https://cran.r-project.org/web/packages/coda/index.html),[ <strong>lme4</strong>](https://cran.r-project.org/web/packages/lme4/index.html) and 
-[<strong>rjags</strong>] (https://cran.r-project.org/web/packages/rjags/index.html). 
+[<strong>rjags</strong>](https://cran.r-project.org/web/packages/rjags/index.html). 
 To install these R packages, please see this [manual](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) from CRAN. 
 
 The R function BinBayes.R requires four input variables as follows:
@@ -19,10 +19,11 @@ The R function BinBayes.R requires four input variables as follows:
   * "M3", model with random subject and item effects and where the effect of experimental condition varies across subjects.
   * "M4", model with random subject and item effects and where the effect of experimental condition varies across items.
   * "M5", model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.
-* <strong>baseline</strong> is a string that specifies the baseline condition. It's <em><strong>NULL</strong></em> if no specific condition is given as baseline.
+* <strong>baseline</strong> is a string that specifies the baseline condition. It automatically pick one condition as baseline if no specific condition is given.
 
 
 As illustrated below, the output of the BinBayes.R function will consist of an object having five components with the following names:
+
 * <strong>bic</strong> is the value of the BIC for the fitted model.
 * <strong>waic</strong>  is the value of the WAIC for the fitted model.
 * <strong>post_summary</strong> is an mcmc list containing samples from the posterior distribution for all components of the fitted model.
@@ -31,15 +32,25 @@ As illustrated below, the output of the BinBayes.R function will consist of an o
 
 We will illustrate how to use BinBayes.R in the following two examples.
 
+
 ## Example 1
+
 For this example, We were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. Dataset for this example could be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt).
 
 Suppose we are interested in comparing model 1 and model 2 with logit link function,  We can first compute BIC and WAIC for both models. 
 
 ```
+# Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
+ > path <- "/Users/Yin/Dropbox/BinBayes/BinBayes.R"
+
+ # Load BinBayes.R
+ > source(path)
+ 
+# Read data into R
 > accuracy <- read.table("/Users/guest1/Dropbox/Bayes Factor/Scenes3 Bayesian.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','factor','numeric'))
 > #remove cases with missing values
 > accuracy<-na.omit(accuracy)
+
 > L1_result <- BinBayes(accuracy, "M1", "Logit")
 
 > L1_result$bic
@@ -68,12 +79,24 @@ Levels: alt new std
 Levels: alt new std
 ```
 According to the BIC and WAIC values,we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Also, notice that baseline condition is <em>std</em> for both models since we didn't specify the baseline condition at beginning. We can set the baseline to <em>new</em> as:
+
 ```
+> L2_new_result <- BinBayes(accuracy, "M2", "Logit","new")
+> L2_new_result$bic
+[1] 2020.746
+> L2_new_result$waic
+[1] 1836.863
+> L2_new_result$condition_level
+[1] new alt std
+Levels: alt new std
+> L2_new_result$baseline
+[1] "new"
 
 ```
 
 
 ## Example 2
+
 For this example, we were investigating the influence of a semantic context on the identification of printed words shown either under clear (high contrast) or degraded (low contrast) conditions. The semantic context consisted of a prime word presented in advance of the target item. On critical trials, the target item was a word and on other trials the target was a nonword. The task was to classify the target on each trial as a word or a nonword (this is called a "lexical decision" task). Our interest is confined to trials with word targets. The prime word was either semantically related or unrelated to the target word (e.g., granite-STONE vs. attack-FLOWER), and the target word was presented either in clear or degraded form. Combining these two factors produced four conditions (related-clear, unrelated-clear, related-degraded, unrelated-degraded). For the current analysis, accuracy of response was the dependent measure. Dataset for this example could be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Prime3_Bayesian.txt) and it has:
 
  *	72 subjects
@@ -110,7 +133,9 @@ To get started, Let's download the BinBaye.R from [here](https://github.com/v2so
 .
 
 ```
+
 Suppose we are interested in Model 4 with Logit as link function. We can compute the BIC and WAIC values as:
+
 ```
  # Model 4 with Logit link
 > L4_result <- BinBayes(accuracy, "M4", "Logit")
@@ -189,6 +214,7 @@ The notations for each model compoent are:
 </center>
 
 To get the 95% HPD interval from posterior distribution, we can use the <strong>HPDinterval()</strong> function as:
+
 ```
 > HPDinterval(M4_result$post_summary)
 [[1]]
@@ -202,7 +228,9 @@ a[4]           -0.71871493  1.922685809
 .
 .
 ```
+
 To create the density plots and boxplots summarizing the posterior distribution, in particular the condition effects, we can first use the <strong>varnames()</strong> function in R to see all the variable names in the post summary component of the fitted model. We then extract the corresponding variables to create posterior density plots and item effect boxplots for the parameters that we are interested in.
+
 
 ```
 > varnames(M4_result$post_summary)
@@ -214,6 +242,7 @@ To create the density plots and boxplots summarizing the posterior distribution,
 [671] "b[67]"      "b[68]"        "b[69]"        "b[70]"        "b[71]"         
 [676] "b[72]"      "beta0"        "sigma_a"      "sigma_alpha_a" "sigma_b"  
 ```
+
 To get the posterior density for "sigma_a", which is standard deviation for random item effect, we need to find the location of  "sigma_a" in this mcmc list which is in column 678. Then we can get:
 
 ```
@@ -230,6 +259,7 @@ To create boxplots of condition effect by item, we can do as follows:
  5. Then use these ordered columns in (4) to create boxplot.
 
 We select the second condition (RD) in the demonstration below:
+
 
 ```
 # Since we are looking at second condition, we need to find the location of alpha[2] and all alpha_a[2,]s.
