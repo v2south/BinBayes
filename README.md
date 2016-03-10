@@ -19,12 +19,15 @@ The R function BinBayes.R requires three input variables as follows:
   * "M3", model with random subject and item effects and where the effect of experimental condition varies across subjects.
   * "M4", model with random subject and item effects and where the effect of experimental condition varies across items.
   * "M5", model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.
+* <strong>baseline</strong> is a string that specifies the baseline condition.It's <em><strong>NULL</strong></em> by default.
 
 
-As illustrated below, the output of the BinBayes.R function will consist of an object having three components with the following names:
+As illustrated below, the output of the BinBayes.R function will consist of an object having five components with the following names:
 * <strong>bic</strong> is the value of the BIC for the fitted model.
 * <strong>waic</strong>  is the value of the WAIC for the fitted model.
 * <strong>post_summary</strong> is an mcmc list containing samples from the posterior distribution for all components of the fitted model.
+* <strong>condition_level</strong> is the ordered condition level in the model. The first level would be the default baseline.
+* <strong>baseline</strong> is the baseline condition.
 
 We will illustrate how to use BinBayes.R in the following two examples.
 
