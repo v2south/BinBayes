@@ -67,7 +67,7 @@ Levels: alt new std
 [1] std alt new
 Levels: alt new std
 ```
-According to the BIC and WAIC values,we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Also, notice that baseline condition is <em>std</em> for both models since we didn't specify the baseline condition at begining. We can set the baseline to <em>new</em> as:
+According to the BIC and WAIC values,we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Also, notice that baseline condition is <em>std</em> for both models since we didn't specify the baseline condition at beginning. We can set the baseline to <em>new</em> as:
 ```
 
 ```
