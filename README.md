@@ -32,7 +32,42 @@ As illustrated below, the output of the BinBayes.R function will consist of an o
 We will illustrate how to use BinBayes.R in the following two examples.
 
 ## Example 1
-For this example, We were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. Dataset for this example could be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt). 
+For this example, We were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. Dataset for this example could be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt).
+
+Suppose we are interested in comparing model 1 and model 2 with logit link function, we can first compute BIC and WAIC for both models. 
+
+```
+> accuracy <- read.table("/Users/guest1/Dropbox/Bayes Factor/Scenes3 Bayesian.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','factor','numeric'))
+> #remove cases with missing values
+> accuracy<-na.omit(accuracy)
+> L1_result <- BinBayes(accuracy, "M1", "Logit")
+
+> L1_result$bic
+[1] 2049.508
+> L1_result$waic
+[1] 1880.468
+> L1_result$baseline
+[1] std
+Levels: alt new std
+> L1_result$condition_level
+[1] std alt new
+Levels: alt new std
+
+
+
+> L2_result <- BinBayes(accuracy, "M2", "Logit")
+> L2_result$bic
+[1] 2020.746
+> L2_result$waic
+[1] 1835.745
+> L2_result$baseline
+[1] std
+Levels: alt new std
+> L2_result$condition_level
+[1] std alt new
+Levels: alt new std
+
+```
 
 
 
