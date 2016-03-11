@@ -5,6 +5,9 @@ BinBayes <- function(m_data,model,link,baseline=NULL)
   library(lme4)
   library(rjags)
   
+  # Rename the columns
+  colnames(m_data) <- c("subj","itemID", "cond", "Acc ")
+  
   n.obs<-nrow(m_data)
   n.subject<-length(unique(m_data$subj))
   n.item<-length(unique(m_data$itemID))
