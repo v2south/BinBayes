@@ -327,7 +327,7 @@ Suppose we are interested in comparing model 1, model 2 and model 4 with Logit a
 |          Model          |    BIC   | WAIC     |
 |:-----------------------:|:--------:|----------|
 | Model 1 with Logit Link | 2927.731 | 2826.157 |
-| Model 2 with Logit Link | 2925.133 | 2801.64  |
+| Model 2 with Logit Link | <strong>2925.133</strong> | 2801.64  |
 | Model 4 with Logit Link | 2996.642 | <strong>2799.036</strong> |
 
 
