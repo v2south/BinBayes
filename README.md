@@ -90,7 +90,7 @@ Suppose we are interested in comparing model 1 and model 2 with logit link funct
 
 ```
 
-# Model 1 with logit link
+# Model 1 with Logit link
 > L1_result <- BinBayes(accuracy, "M1", "Logit")
 Loading required package: Matrix
 Linked to JAGS 3.4.0
@@ -112,7 +112,7 @@ Levels: alt new std
 Levels: alt new std
 
 
-# Model 2 with logit link
+# Model 2 with Logit link
 > L2_result <- BinBayes(accuracy, "M2", "Logit")
 > L2_result$bic
 [1] 2020.746
@@ -126,7 +126,7 @@ Levels: alt new std
 Levels: alt new std
 ```
 
-According to the BIC and WAIC values,we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Then we can get posterior summary from model 2 by <em> summary()</em> function.
+According to the BIC and WAIC values,we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Then we can get posterior summary from model 2 by <strong> *summary()*</strong> function.
 
 ```
 > summary(L2_result$post_summary)
@@ -299,6 +299,17 @@ To get started, Let's download the BinBaye.R and save it in the same directory o
 Suppose we are interested in comparing model 1, model 2 and model 4 with Logit as link function. We can compute the BIC and WAIC values as:
 
 ```
+# Model 1 with Logit link
+
+> L1_result <- BinBayes(accuracy,"M1","Logit")
+> L1_result$bic
+[1] 2927.731
+> L1_result$waic
+[1] 2826.157
+
+# Model 2 with Logit link
+
+
 
  # Model 4 with Logit link
 > L4_result <- BinBayes(accuracy, "M4", "Logit")
@@ -309,17 +320,18 @@ Suppose we are interested in comparing model 1, model 2 and model 4 with Logit a
 > L4_result$waic
 [1] 2799.036
 
-> L4_result$baseline
-[1] UD
-Levels: RC RD UC UD
-
-> L4_result$condition_level
-[1] UD RD UC RC
-Levels: RC RD UC UD
+ 
  
 ```
 
-We can also summarize the posterior distribution of L4 with <em>summary()</em> function as:
+|          Model          |    BIC   | WAIC     |
+|:-----------------------:|:--------:|----------|
+| Model 1 with Logit Link | 2927.731 | 2826.157 |
+| Model 2 with Logit Link | 2925.133 | 2801.64  |
+| Model 4 with Logit Link | 2996.642 | <strong>2799.036</strong> |
+
+
+Accodring to the BIC and WAIC values in the table above, we can see that model 4 has the lowest WAIC among these three models. We can then summarize the posterior distribution of L4 with <strong>*summary()*</strong> function as:
 
 ```
 > summary(L4_result$post_summary)
@@ -385,7 +397,7 @@ The notations for each model compoent are:
 
 </center>
 
-To get the 95% HPD interval from posterior distribution, we can use the <strong>HPDinterval()</strong> function as:
+To get the 95% HPD interval from posterior distribution, we can use the <strong>*HPDinterval()*</strong> function as:
 
 ```
 > HPDinterval(L4_result$post_summary)
@@ -401,7 +413,7 @@ a[4]           -0.71871493  1.922685809
 .
 ```
 
-To create the density plots and boxplots summarizing the posterior distribution, in particular the condition effects, we can first use the <strong>varnames()</strong> function in R to see all the variable names in the post summary component of the fitted model. We then extract the corresponding variables to create posterior density plots and item effect boxplots for the parameters that we are interested in.
+To create the density plots and boxplots summarizing the posterior distribution, in particular the condition effects, we can first use the <strong>*varnames()*</strong> function in R to see all the variable names in the post summary component of the fitted model. We then extract the corresponding variables to create posterior density plots and item effect boxplots for the parameters that we are interested in.
 
 
 ```
@@ -417,9 +429,11 @@ To create the density plots and boxplots summarizing the posterior distribution,
 
 To get the posterior density for "sigma_a", which is standard deviation for random item effect, we need to find the location of  "sigma_a" in this mcmc list which is in column 678. Then we can get:
 
+
 ```
 > plot(L4_result$post_summary[,678])
 ```
+
 
 ![Posterior Plot](https://cloud.githubusercontent.com/assets/2337149/13296876/787467fa-dae4-11e5-9932-bea8a89596a1.png)
 
@@ -436,6 +450,10 @@ To create boxplots of condition effect by item, we can do as follows:
 We select the second condition (RD) in the demonstration below:
 
 ```
+> L4_result$baseline
+[1] UD
+Levels: RC RD UC UD
+
 > L4_result$condition_level
 [1] UD RD UC RC
 Levels: RC RD UC UD
