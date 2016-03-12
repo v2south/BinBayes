@@ -10,7 +10,7 @@ To install these R packages, please see this [manual](https://cran.r-project.org
 
 The R function BinBayes.R requires four input variables as follows:
 
-* <strong> m_data </strong> is a matrix or data frame containing the data from your study. This data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be labelled as *subj*, *itemID*, *cond*, *Acc* respectively.
+* <strong> m_data </strong> is a matrix or data frame containing the data from your study. This data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be listed in the order of *subject*, *item number*, *condition*, *accuracy* respectively.
 
 * <strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.
 * <strong> model </strong>  is a string taking five possible values as follows:
@@ -30,7 +30,7 @@ As illustrated below, the output of the BinBayes.R function will consist of an o
 * <strong>condition_level</strong> is the ordered condition level in the model. The first level would be the baseline.
 * <strong>baseline</strong> is the baseline condition.
 
-We will illustrate how to use BinBayes.R in the following two examples.
+We will illustrate how to use BinBayes.R in the following two examples. Download BinBayes.R from [here](https://raw.githubusercontent.com/v2south/BinBayes/master/R_script/BinBayes.R)
 
 
 ## Example 1
@@ -44,8 +44,9 @@ For this example, We were investigating the development of memory for visual sce
  *	3550 total observations
  *	Overall accuracy 89.8%
  
+To get started, Let's download the BinBaye.R and save it in the same directory or folder with dataset Scenes3_Bayesian.txt.
 
-Suppose we are interested in comparing model 1 and model 2 with logit link function,  We can first compute BIC and WAIC for both models. 
+
 
 ```
 # Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
@@ -58,8 +59,47 @@ Suppose we are interested in comparing model 1 and model 2 with logit link funct
 > accuracy <- read.table("/Users/guest1/Dropbox/Bayes Factor/Scenes3 Bayesian.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','factor','numeric'))
 > #remove cases with missing values
 > accuracy<-na.omit(accuracy)
+> accuracy
+     subj itemID cond Acc
+1     s01   i001  std   1
+2     s01   i004  alt   1
+3     s01   i006  new   1
+4     s01   i008  new   1
+5     s01   i009  std   1
+6     s01   i011  alt   1
+7     s01   i014  new   1
+8     s01   i016  new   1
+9     s01   i017  std   1
+10    s01   i020  std   1
+11    s01   i022  std   0
+12    s01   i024  std   1
+13    s01   i026  new   1
+14    s01   i027  new   1
+15    s01   i029  std   1
+16    s01   i032  std   1
+17    s01   i034  alt   1
+18    s01   i035  new   1
+19    s01   i038  alt   1
+20    s01   i039  std   1
+21    s01   i042  std   1
+.
+.
+.
+.
+```
+Suppose we are interested in comparing model 1 and model 2 with logit link function,  We can first compute BIC and WAIC for both models. 
 
+```
+
+# Model 1 with logit link
 > L1_result <- BinBayes(accuracy, "M1", "Logit")
+Loading required package: Matrix
+Linked to JAGS 3.4.0
+Loaded modules: basemod,bugs
+  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
+  |**************************************************| 100%
+  |**************************************************| 100%
+  |**************************************************| 100%
 
 > L1_result$bic
 [1] 2049.508
@@ -73,7 +113,7 @@ Levels: alt new std
 Levels: alt new std
 
 
-
+# Model 2 with logit link
 > L2_result <- BinBayes(accuracy, "M2", "Logit")
 > L2_result$bic
 [1] 2020.746
@@ -86,7 +126,69 @@ Levels: alt new std
 [1] std alt new
 Levels: alt new std
 ```
-According to the BIC and WAIC values,we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Also, notice that baseline condition is <em>std</em> for both models since we didn't specify the baseline condition at beginning. We can set the baseline to <em>new</em> as:
+
+According to the BIC and WAIC values,we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Then we can get posterior summary from model 2 by <em> summary()</em> function.
+
+```
+> summary(L2_result$post_summary)
+
+Iterations = 12001:32000
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 20000 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+             Mean     SD  Naive SE Time-series SE
+a[1]     -0.11448 0.9904 0.0070032       0.009571
+a[2]     -0.85242 0.8024 0.0056739       0.007862
+a[3]      0.10590 0.9522 0.0067328       0.009261
+a[4]      0.09433 0.9397 0.0066448       0.008666
+a[5]      1.05577 1.2407 0.0087731       0.011628
+a[6]     -0.04343 0.9677 0.0068425       0.009498
+a[7]      1.23382 1.1968 0.0084630       0.011032
+a[8]      0.10627 0.9540 0.0067461       0.009359
+a[9]      1.06573 1.2328 0.0087172       0.011379
+a[10]    -2.55822 0.5976 0.0042253       0.007460
+a[11]    -2.24377 0.6107 0.0043181       0.007147
+a[12]    -0.14575 0.9604 0.0067909       0.009049
+.
+.
+.
+
+alpha[1]  0.00000 0.0000 0.0000000       0.000000  # Condition std
+alpha[2] -0.90427 0.1715 0.0012128       0.003857  # Condition alt
+alpha[3] -1.02556 0.1696 0.0011992       0.003634  # Condition new
+.
+.
+.
+b[27]    -0.30396 0.3240 0.0022910       0.004301
+b[28]     0.76835 0.3971 0.0028078       0.004777
+b[29]     0.35706 0.3825 0.0027050       0.004741
+b[30]    -0.03684 0.3441 0.0024334       0.004709
+beta0     3.84647 0.2384 0.0016859       0.009772
+sigma_a   1.64579 0.1410 0.0009969       0.003578
+sigma_b   0.70411 0.1253 0.0008858       0.001730
+.
+.
+.
+2. Quantiles for each variable:
+
+              2.5%      25%      50%      75%    97.5%
+a[1]     -1.830732 -0.80775 -0.20010  0.49052  2.07398
+a[2]     -2.288860 -1.41158 -0.89810 -0.34879  0.85819
+a[3]     -1.542631 -0.55929  0.03078  0.69073  2.15969
+a[4]     -1.548642 -0.56808  0.02484  0.68899  2.10444
+a[5]     -1.126335  0.17604  0.96981  1.83940  3.70157
+a[6]     -1.729634 -0.72891 -0.12941  0.57648  2.04576
+.
+.
+.
+
+```
+
+Also, notice that baseline condition is <em>std</em> for both models since we didn't specify the baseline condition at beginning. We can also set the baseline to <em>new</em> as:
 
 ```
 > L2_new_result <- BinBayes(accuracy, "M2", "Logit","new")
@@ -101,6 +203,59 @@ Levels: alt new std
 [1] "new"
 
 ```
+Since the basline condition is <em> new </em> now, the posterior summary for condition would also change.
+
+```
+> summary(L2_new_result$poster_distribution)
+
+Iterations = 12001:32000
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 20000 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+               Mean     SD  Naive SE Time-series SE
+a[1]     -0.1381526 0.9597 0.0067864       0.009222
+a[2]     -0.8483886 0.8117 0.0057399       0.008231
+a[3]      0.1075865 0.9414 0.0066567       0.009286
+a[4]      0.1155041 0.9463 0.0066913       0.009295
+a[5]      1.0501409 1.2452 0.0088046       0.011279
+a[6]     -0.0396419 0.9529 0.0067377       0.009271
+a[7]      1.2152686 1.1842 0.0083734       0.011406
+a[8]      0.1136061 0.9329 0.0065968       0.008816
+a[9]      1.0356179 1.2262 0.0086704       0.011805
+a[10]    -2.5505333 0.5896 0.0041692       0.007777
+a[11]    -2.2260440 0.6115 0.0043236       0.007669
+a[12]    -0.1168826 0.9798 0.0069280       0.009170
+a[13]     1.2305091 1.2001 0.0084860       0.011587
+a[14]     1.1816613 1.1963 0.0084591       0.011595
+a[15]     1.0547813 1.2524 0.0088561       0.011643
+a[16]     1.0478054 1.2214 0.0086366       0.011347
+a[17]     1.1015207 1.2190 0.0086196       0.011925
+a[18]    -1.9143807 0.6066 0.0042894       0.007095
+a[19]     1.1166556 1.2123 0.0085726       0.011444
+.
+.
+.
+alpha[1]  0.0000000 0.0000 0.0000000       0.000000 # Condition new
+alpha[2]  0.1209206 0.1464 0.0010351       0.002333 # Condition alt
+alpha[3]  1.0376313 0.1717 0.0012139       0.002484 # Condition std
+.
+.
+.
+b[26]     0.5135574 0.3734 0.0026405       0.004417
+b[27]    -0.2997185 0.3208 0.0022685       0.004270
+b[28]     0.7657723 0.3889 0.0027497       0.004230
+b[29]     0.3713921 0.3710 0.0026231       0.004368
+b[30]    -0.0254439 0.3396 0.0024011       0.004399
+beta0     2.7935181 0.2134 0.0015088       0.007985
+sigma_a   1.6323807 0.1407 0.0009952       0.003600
+sigma_b   0.7007261 0.1246 0.0008812       0.001655
+
+```
+
 
 
 ## Example 2
@@ -142,9 +297,10 @@ To get started, Let's download the BinBaye.R from [here](https://github.com/v2so
 
 ```
 
-Suppose we are interested in Model 4 with Logit as link function. We can compute the BIC and WAIC values as:
+Suppose we are interested in comparing model 1, model 2 and model 4 with Logit as link function. We can compute the BIC and WAIC values as:
 
 ```
+
  # Model 4 with Logit link
 > L4_result <- BinBayes(accuracy, "M4", "Logit")
 
@@ -153,8 +309,17 @@ Suppose we are interested in Model 4 with Logit as link function. We can compute
 
 > L4_result$waic
 [1] 2799.036
+
+> L4_result$baseline
+[1] UD
+Levels: RC RD UC UD
+
+> L4_result$condition_level
+[1] UD RD UC RC
+Levels: RC RD UC UD
  
 ```
+
 We can also summarize the posterior distribution of L4 with <strong>summary()</strong> function as:
 
 ```
