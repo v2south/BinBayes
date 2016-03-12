@@ -4,7 +4,7 @@ BinBayes.R is the software implementation of Bayesian approach for the mixed eff
 
 ## Introduction 
 
-We assume that the user has both the [R](https://cran.r-project.org/mirrors.html) and [JAGS](http://mcmc-jags.sourceforge.net/) software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require following three R packages: [<strong>coda</strong>](https://cran.r-project.org/web/packages/coda/index.html),[ <strong>lme4</strong>](https://cran.r-project.org/web/packages/lme4/index.html) and 
+We assume that the user has both the [<strong>R</strong>](https://cran.r-project.org/mirrors.html) and [<strong>JAGS</strong>](http://mcmc-jags.sourceforge.net/) software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require following three R packages: [<strong>coda</strong>](https://cran.r-project.org/web/packages/coda/index.html),[ <strong>lme4</strong>](https://cran.r-project.org/web/packages/lme4/index.html) and 
 [<strong>rjags</strong>](https://cran.r-project.org/web/packages/rjags/index.html). 
 To install these R packages, please see this [manual](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) from CRAN. 
 
@@ -47,7 +47,6 @@ For this example, We were investigating the development of memory for visual sce
 To get started, Let's download the BinBaye.R and save it in the same directory or folder with dataset Scenes3_Bayesian.txt.
 
 
-
 ```
 # Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
  > path <- "/Users/Yin/Dropbox/BinBayes/BinBayes.R"
@@ -56,7 +55,7 @@ To get started, Let's download the BinBaye.R and save it in the same directory o
  > source(path)
  
 # Read data into R
-> accuracy <- read.table("/Users/guest1/Dropbox/Bayes Factor/Scenes3 Bayesian.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','factor','numeric'))
+> accuracy <- read.table("/Users/Yin/Dropbox/BinBayes/Scenes3_Bayesian.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','factor','numeric'))
 > #remove cases with missing values
 > accuracy<-na.omit(accuracy)
 > accuracy
@@ -170,23 +169,23 @@ b[30]    -0.03684 0.3441 0.0024334       0.004709
 beta0     3.84647 0.2384 0.0016859       0.009772
 sigma_a   1.64579 0.1410 0.0009969       0.003578
 sigma_b   0.70411 0.1253 0.0008858       0.001730
-.
-.
-.
-2. Quantiles for each variable:
-
-              2.5%      25%      50%      75%    97.5%
-a[1]     -1.830732 -0.80775 -0.20010  0.49052  2.07398
-a[2]     -2.288860 -1.41158 -0.89810 -0.34879  0.85819
-a[3]     -1.542631 -0.55929  0.03078  0.69073  2.15969
-a[4]     -1.548642 -0.56808  0.02484  0.68899  2.10444
-a[5]     -1.126335  0.17604  0.96981  1.83940  3.70157
-a[6]     -1.729634 -0.72891 -0.12941  0.57648  2.04576
-.
-.
-.
 
 ```
+The notations for each model compoent are:
+
+<center>
+
+| Model Component |                           Explanation                           |
+|:---------------:|:---------------------------------------------------------------:|
+|     alpha[i]    |                  Fixed Effect from Condition[i]                 |
+|       a[j]      |                    Random Effect from Item[j]                   |
+|       b[k]      |                  Random Effect from Subject[k]                  |
+|      beta0      |                         Model Intercept                         |
+|     sigma_a     |            Standard Deviation for Random Item Effect            |
+|     sigma_b     |           Standard Deviation for Random Subject Effect          |
+
+</center>
+
 
 Also, notice that baseline condition is <em>std</em> for both models since we didn't specify the baseline condition at beginning. We can also set the baseline to <em>new</em> as:
 
@@ -268,7 +267,7 @@ For this example, we were investigating the influence of a semantic context on t
  *	8640 total observations
  *	Overall accuracy 95.4%
 
-To get started, Let's download the BinBaye.R from [here](https://github.com/v2south/BinBayes/blob/master/BinBayes.R) and save it in the same directory or folder with dataset Prime3_Bayesian.txt.
+To get started, Let's download the BinBaye.R and save it in the same directory or folder with dataset Prime3_Bayesian.txt.
 
 ```
  # Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
@@ -320,10 +319,10 @@ Levels: RC RD UC UD
  
 ```
 
-We can also summarize the posterior distribution of L4 with <strong>summary()</strong> function as:
+We can also summarize the posterior distribution of L4 with <em>summary()</em> function as:
 
 ```
-> summary(M4_result$post_summary)
+> summary(L4_result$post_summary)
                        Mean         SD     Naive SE Time-series SE
 a[1]           -1.651674140 0.38186812 0.0027002154    0.004879634
 a[2]            1.029455547 0.76992876 0.0054442184    0.007200982
@@ -389,7 +388,7 @@ The notations for each model compoent are:
 To get the 95% HPD interval from posterior distribution, we can use the <strong>HPDinterval()</strong> function as:
 
 ```
-> HPDinterval(M4_result$post_summary)
+> HPDinterval(L4_result$post_summary)
 [[1]]
                    lower       upper
 a[1]           -2.37513723 -0.876461878
@@ -406,7 +405,7 @@ To create the density plots and boxplots summarizing the posterior distribution,
 
 
 ```
-> varnames(M4_result$post_summary)
+> varnames(L4_result$post_summary)
 [1] "a[1]"         "a[2]"         "a[3]"         "a[4]"         "a[5]"          
 [6] "a[6]"         "a[7]"         "a[8]"         "a[9]"         "a[10]"         
 .
@@ -419,27 +418,34 @@ To create the density plots and boxplots summarizing the posterior distribution,
 To get the posterior density for "sigma_a", which is standard deviation for random item effect, we need to find the location of  "sigma_a" in this mcmc list which is in column 678. Then we can get:
 
 ```
-> plot(M4_result$post_summary[,678])
+> plot(L4_result$post_summary[,678])
 ```
 
 ![Posterior Plot](https://cloud.githubusercontent.com/assets/2337149/13296876/787467fa-dae4-11e5-9932-bea8a89596a1.png)
 
 To create boxplots of condition effect by item, we can do as follows:
 
- 1. Reformat the *post\_summary* part from result as a matrix by *as.matirx()* function.
- 2. Use *varnames()* function to locate the columns of fixed effect of condition and mix effect between item and condition for the specific condition.
- 3. Add the fixed condition effect to the corresponding mix effect columns.
- 4. Use *apply()* function to find the median of columns obtained in (3) and sort them by *order()* function.
- 5. Then use these ordered columns in (4) to create boxplot.
+ 
+ 1. Get the ordered condition level from *condition_level*.
+ 2. Reformat the *post\_summary* part from result as a matrix by *as.matirx()* function.
+ 3. Use *varnames()* function to locate the columns of fixed effect of condition and mix effect between item and condition for the specific condition.
+ 4. Add the fixed condition effect to the corresponding mix effect columns.
+ 5. Use *apply()* function to find the median of columns obtained in (3) and sort them by *order()* function.
+ 6. Then use these ordered columns in (4) to create boxplot.
 
 We select the second condition (RD) in the demonstration below:
 
-
 ```
-# Since we are looking at second condition, we need to find the location of alpha[2] and all alpha_a[2,]s.
+> L4_result$condition_level
+[1] UD RD UC RC
+Levels: RC RD UC UD
+
+# Notice that RD is the second condition, we need to find the location of alpha[2] and all alpha_a[2,]s.
 # By observing from varnames() result, we can see that alpha[2] is on the 122 column and all alpha_a[2,]s is located from 126 to 604 by every 4 columns.
-# We have 120 items for each condition
+# We have 120 items for each condition.
+
 > index <- seq(from=126, to=604, by=4)
+
 > rd_item <- as.matrix(M4_result$post_summary)[, index]
 
 > colnames(rd_item) <- seq(from=1,to=120)
