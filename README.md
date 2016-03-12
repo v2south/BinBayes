@@ -19,7 +19,7 @@ The R function BinBayes.R requires four input variables as follows:
   * "M3", model with random subject and item effects and where the effect of experimental condition varies across subjects.
   * "M4", model with random subject and item effects and where the effect of experimental condition varies across items.
   * "M5", model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.
-* <strong>baseline</strong> is a string that specifies the baseline condition. It automatically pick one condition as baseline if no specific condition is given.
+* <strong>baseline</strong> is a string that specifies the baseline condition. It will automatically pick one condition as baseline if no specific condition is given.
 
 
 As illustrated below, the output of the BinBayes.R function will consist of an object having five components with the following names:
