@@ -12,12 +12,10 @@
   <body>
     <section class="page-header">
       <h1 class="project-name">A Bayesian Approach to Logistic/Probit Mixed Effects Analysis of Repeated Measures Accuracy Studies</h1>
-      <h2 class="project-tagline"> Yin Song <sup> a </sup> , Farouk Nathoo <sup> a </sup>, Michael E. J. Masson <sup> b </sup> </h2>
-      <h4 class="project-tagline"> a. Department of Mathematics and Statistics, University of Victoria </h4>
-      <h4 class="project-tagline"> b. Department of Psychology, University of Victoria </h4>
+      <h2 class="project-tagline">Yin Song, Farouk Nathoo, Michael E. J. Masson </h2>
       <a href="https://github.com/v2south/BinBayes" class="btn">View on GitHub</a>
-      <a href="https://github.com/v2south/BinBayes/zipball/master" class="btn">Download BinBayes.zip</a>
-      <a href="https://github.com/v2south/BinBayes/tarball/master" class="btn">Download BinBayes.tar.gz</a>
+      <a href="https://github.com/v2south/BinBayes/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/v2south/BinBayes/tarball/master" class="btn">Download .tar.gz</a>
     </section>
 
     <section class="main-content">
@@ -29,14 +27,14 @@
 <h2>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
 
-<p>We assume that the user has both the <a href="https://cran.r-project.org/mirrors.html">R</a> and <a href="http://mcmc-jags.sourceforge.net/">JAGS</a> software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require following three R packages: <a href="https://cran.r-project.org/web/packages/coda/index.html"><strong>coda</strong></a>,<a href="https://cran.r-project.org/web/packages/lme4/index.html"> <strong>lme4</strong></a> and 
+<p>We assume that the user has both the <a href="https://cran.r-project.org/mirrors.html"><strong>R</strong></a> and <a href="http://mcmc-jags.sourceforge.net/"><strong>JAGS</strong></a> software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require following three R packages: <a href="https://cran.r-project.org/web/packages/coda/index.html"><strong>coda</strong></a>,<a href="https://cran.r-project.org/web/packages/lme4/index.html"> <strong>lme4</strong></a> and 
 <a href="https://cran.r-project.org/web/packages/rjags/index.html"><strong>rjags</strong></a>. 
 To install these R packages, please see this <a href="https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages">manual</a> from CRAN. </p>
 
-<p>The R function BinBayes.R requires three input variables as follows:</p>
+<p>The R function BinBayes.R requires four input variables as follows:</p>
 
 <ul>
-<li><p><strong> m_data </strong> is a matrix or data frame containing the data from your study. This data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be labelled as <em>subj</em>, <em>itemID</em>, <em>cond</em>, <em>Acc</em> respectively.</p></li>
+<li><p><strong> m_data </strong> is a matrix or data frame containing the data from your study. This data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be listed in the order of <em>subject</em>, <em>item number</em>, <em>condition</em>, <em>accuracy</em> respectively.</p></li>
 <li><p><strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.</p></li>
 <li>
 <strong> model </strong>  is a string taking five possible values as follows:
@@ -49,10 +47,11 @@ To install these R packages, please see this <a href="https://cran.r-project.org
 <li>"M5", model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.</li>
 </ul>
 </li>
-<li><p><strong>baseline</strong> is a string that specifies the baseline condition.It's <em><strong>NULL</strong></em> by default.</p></li>
+<li>
+<strong>baseline</strong> is a string that specifies the baseline condition. It will automatically pick one condition as baseline if no specific condition is given.</li>
 </ul>
 
-<p>As illustrated below, the output of the BinBayes.R function will consist of an object having three components with the following names:</p>
+<p>As illustrated below, the output of the BinBayes.R function will consist of an object having five components with the following names:</p>
 
 <ul>
 <li>
@@ -62,17 +61,258 @@ To install these R packages, please see this <a href="https://cran.r-project.org
 <li>
 <strong>post_summary</strong> is an mcmc list containing samples from the posterior distribution for all components of the fitted model.</li>
 <li>
-<strong>condition_level</strong> is the order of condition level in the model. The first level would be the default baseline.</li>
+<strong>condition_level</strong> is the ordered condition level in the model. The first level would be the baseline.</li>
 <li>
 <strong>baseline</strong> is the baseline condition.</li>
 </ul>
 
-<p>We will illustrate how to use BinBayes.R in the following two examples.</p>
+<p>We will illustrate how to use BinBayes.R in the following two examples. Download BinBayes.R from <a href="https://raw.githubusercontent.com/v2south/BinBayes/master/R_script/BinBayes.R">here</a></p>
 
 <h2>
 <a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example 1</h2>
 
-<p>For this example, We were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. Dataset for this example could be downloaded from <a href="https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt">here</a>. </p>
+<p>For this example, We were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. Dataset for this example could be downloaded from <a href="https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt">here</a> and it has:</p>
+
+<ul>
+<li> 30 subjects</li>
+<li> 3 conditions</li>
+<li> 240 items</li>
+<li> 3550 total observations</li>
+<li> Overall accuracy 89.8%</li>
+</ul>
+
+<p>To get started, Let's download the BinBaye.R and save it in the same directory or folder with dataset Scenes3_Bayesian.txt.</p>
+
+<pre><code># Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
+ &gt; path &lt;- "/Users/Yin/Dropbox/BinBayes/BinBayes.R"
+
+ # Load BinBayes.R
+ &gt; source(path)
+
+# Read data into R
+&gt; accuracy &lt;- read.table("/Users/Yin/Dropbox/BinBayes/Scenes3_Bayesian.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','factor','numeric'))
+&gt; #remove cases with missing values
+&gt; accuracy&lt;-na.omit(accuracy)
+&gt; accuracy
+     subj itemID cond Acc
+1     s01   i001  std   1
+2     s01   i004  alt   1
+3     s01   i006  new   1
+4     s01   i008  new   1
+5     s01   i009  std   1
+6     s01   i011  alt   1
+7     s01   i014  new   1
+8     s01   i016  new   1
+9     s01   i017  std   1
+10    s01   i020  std   1
+11    s01   i022  std   0
+12    s01   i024  std   1
+13    s01   i026  new   1
+14    s01   i027  new   1
+15    s01   i029  std   1
+16    s01   i032  std   1
+17    s01   i034  alt   1
+18    s01   i035  new   1
+19    s01   i038  alt   1
+20    s01   i039  std   1
+21    s01   i042  std   1
+.
+.
+.
+.
+</code></pre>
+
+<p>Suppose we are interested in comparing model 1 and model 2 with logit link function, We can first compute BIC and WAIC for both models. </p>
+
+<pre><code>
+# Model 1 with Logit link
+&gt; L1_result &lt;- BinBayes(accuracy, "M1", "Logit")
+Loading required package: Matrix
+Linked to JAGS 3.4.0
+Loaded modules: basemod,bugs
+  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
+  |**************************************************| 100%
+  |**************************************************| 100%
+  |**************************************************| 100%
+
+&gt; L1_result$bic
+[1] 2049.508
+&gt; L1_result$waic
+[1] 1880.468
+&gt; L1_result$baseline
+[1] std
+Levels: alt new std
+&gt; L1_result$condition_level
+[1] std alt new
+Levels: alt new std
+
+
+# Model 2 with Logit link
+&gt; L2_result &lt;- BinBayes(accuracy, "M2", "Logit")
+&gt; L2_result$bic
+[1] 2020.746
+&gt; L2_result$waic
+[1] 1835.745
+&gt; L2_result$baseline
+[1] std
+Levels: alt new std
+&gt; L2_result$condition_level
+[1] std alt new
+Levels: alt new std
+</code></pre>
+
+<p>According to the BIC and WAIC values, we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Then we can get posterior summary from model 2 by <strong> <em>summary()</em></strong> function.</p>
+
+<pre><code>&gt; summary(L2_result$post_summary)
+
+Iterations = 12001:32000
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 20000 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+             Mean     SD  Naive SE Time-series SE
+a[1]     -0.11448 0.9904 0.0070032       0.009571
+a[2]     -0.85242 0.8024 0.0056739       0.007862
+a[3]      0.10590 0.9522 0.0067328       0.009261
+a[4]      0.09433 0.9397 0.0066448       0.008666
+a[5]      1.05577 1.2407 0.0087731       0.011628
+a[6]     -0.04343 0.9677 0.0068425       0.009498
+a[7]      1.23382 1.1968 0.0084630       0.011032
+a[8]      0.10627 0.9540 0.0067461       0.009359
+a[9]      1.06573 1.2328 0.0087172       0.011379
+a[10]    -2.55822 0.5976 0.0042253       0.007460
+a[11]    -2.24377 0.6107 0.0043181       0.007147
+a[12]    -0.14575 0.9604 0.0067909       0.009049
+.
+.
+.
+
+alpha[1]  0.00000 0.0000 0.0000000       0.000000  # Condition std
+alpha[2] -0.90427 0.1715 0.0012128       0.003857  # Condition alt
+alpha[3] -1.02556 0.1696 0.0011992       0.003634  # Condition new
+.
+.
+.
+b[27]    -0.30396 0.3240 0.0022910       0.004301
+b[28]     0.76835 0.3971 0.0028078       0.004777
+b[29]     0.35706 0.3825 0.0027050       0.004741
+b[30]    -0.03684 0.3441 0.0024334       0.004709
+beta0     3.84647 0.2384 0.0016859       0.009772
+sigma_a   1.64579 0.1410 0.0009969       0.003578
+sigma_b   0.70411 0.1253 0.0008858       0.001730
+
+</code></pre>
+
+<p>The notations for each model component are:</p>
+
+<p></p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Model Component</th>
+<th align="center">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">alpha[i]</td>
+<td align="center">Fixed Effect from Condition[i]</td>
+</tr>
+<tr>
+<td align="center">a[j]</td>
+<td align="center">Random Effect from Item[j]</td>
+</tr>
+<tr>
+<td align="center">b[k]</td>
+<td align="center">Random Effect from Subject[k]</td>
+</tr>
+<tr>
+<td align="center">beta0</td>
+<td align="center">Model Intercept</td>
+</tr>
+<tr>
+<td align="center">sigma_a</td>
+<td align="center">Standard Deviation for Random Item Effect</td>
+</tr>
+<tr>
+<td align="center">sigma_b</td>
+<td align="center">Standard Deviation for Random Subject Effect</td>
+</tr>
+</tbody>
+</table>
+
+<p></p>
+
+<p>Also, notice that baseline condition is <em>std</em> for both models since we didn't specify the baseline condition at beginning. We can also set the baseline to <em>new</em> as:</p>
+
+<pre><code>&gt; L2_new_result &lt;- BinBayes(accuracy, "M2", "Logit","new")
+&gt; L2_new_result$bic
+[1] 2020.746
+&gt; L2_new_result$waic
+[1] 1836.863
+&gt; L2_new_result$condition_level
+[1] new alt std
+Levels: alt new std
+&gt; L2_new_result$baseline
+[1] "new"
+
+</code></pre>
+
+<p>Since the baseline condition is <em> new </em> now, the posterior summary for condition would also change as:</p>
+
+<pre><code>&gt; summary(L2_new_result$poster_distribution)
+
+Iterations = 12001:32000
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 20000 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+               Mean     SD  Naive SE Time-series SE
+a[1]     -0.1381526 0.9597 0.0067864       0.009222
+a[2]     -0.8483886 0.8117 0.0057399       0.008231
+a[3]      0.1075865 0.9414 0.0066567       0.009286
+a[4]      0.1155041 0.9463 0.0066913       0.009295
+a[5]      1.0501409 1.2452 0.0088046       0.011279
+a[6]     -0.0396419 0.9529 0.0067377       0.009271
+a[7]      1.2152686 1.1842 0.0083734       0.011406
+a[8]      0.1136061 0.9329 0.0065968       0.008816
+a[9]      1.0356179 1.2262 0.0086704       0.011805
+a[10]    -2.5505333 0.5896 0.0041692       0.007777
+a[11]    -2.2260440 0.6115 0.0043236       0.007669
+a[12]    -0.1168826 0.9798 0.0069280       0.009170
+a[13]     1.2305091 1.2001 0.0084860       0.011587
+a[14]     1.1816613 1.1963 0.0084591       0.011595
+a[15]     1.0547813 1.2524 0.0088561       0.011643
+a[16]     1.0478054 1.2214 0.0086366       0.011347
+a[17]     1.1015207 1.2190 0.0086196       0.011925
+a[18]    -1.9143807 0.6066 0.0042894       0.007095
+a[19]     1.1166556 1.2123 0.0085726       0.011444
+.
+.
+.
+alpha[1]  0.0000000 0.0000 0.0000000       0.000000 # Condition new
+alpha[2]  0.1209206 0.1464 0.0010351       0.002333 # Condition alt
+alpha[3]  1.0376313 0.1717 0.0012139       0.002484 # Condition std
+.
+.
+.
+b[26]     0.5135574 0.3734 0.0026405       0.004417
+b[27]    -0.2997185 0.3208 0.0022685       0.004270
+b[28]     0.7657723 0.3889 0.0027497       0.004230
+b[29]     0.3713921 0.3710 0.0026231       0.004368
+b[30]    -0.0254439 0.3396 0.0024011       0.004399
+beta0     2.7935181 0.2134 0.0015088       0.007985
+sigma_a   1.6323807 0.1407 0.0009952       0.003600
+sigma_b   0.7007261 0.1246 0.0008812       0.001655
+
+</code></pre>
 
 <h2>
 <a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example 2</h2>
@@ -87,7 +327,7 @@ To install these R packages, please see this <a href="https://cran.r-project.org
 <li> Overall accuracy 95.4%</li>
 </ul>
 
-<p>To get started, Let's download the BinBaye.R from <a href="https://github.com/v2south/BinBayes/blob/master/BinBayes.R">here</a> and save it in the same directory or folder with dataset Prime3_Bayesian.txt.</p>
+<p>To get started, Let's download the BinBaye.R and save it in the same directory or folder with dataset Prime3_Bayesian.txt.</p>
 
 <pre><code> # Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
  &gt; path &lt;- "/Users/Yin/Dropbox/BinBayes/BinBayes.R"
@@ -115,9 +355,21 @@ To install these R packages, please see this <a href="https://cran.r-project.org
 
 </code></pre>
 
-<p>Suppose we are interested in Model 4 with Logit as link function. We can compute the BIC and WAIC values as:</p>
+<p>Suppose we are interested in comparing model 1, model 2 and model 4 with Logit as link function. We can compute the BIC and WAIC values as:</p>
 
-<pre><code> # Model 4 with Logit link
+<pre><code># Model 1 with Logit link
+
+&gt; L1_result &lt;- BinBayes(accuracy,"M1","Logit")
+&gt; L1_result$bic
+[1] 2927.731
+&gt; L1_result$waic
+[1] 2826.157
+
+# Model 2 with Logit link
+
+
+
+ # Model 4 with Logit link
 &gt; L4_result &lt;- BinBayes(accuracy, "M4", "Logit")
 
 &gt; L4_result$bic
@@ -126,11 +378,40 @@ To install these R packages, please see this <a href="https://cran.r-project.org
 &gt; L4_result$waic
 [1] 2799.036
 
+
+
 </code></pre>
 
-<p>We can also summarize the posterior distribution of L4 with <strong>summary()</strong> function as:</p>
+<table>
+<thead>
+<tr>
+<th align="center">Model</th>
+<th align="center">BIC</th>
+<th>WAIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Model 1 with Logit Link</td>
+<td align="center">2927.731</td>
+<td>2826.157</td>
+</tr>
+<tr>
+<td align="center">Model 2 with Logit Link</td>
+<td align="center"><strong>2925.133</strong></td>
+<td>2801.64</td>
+</tr>
+<tr>
+<td align="center">Model 4 with Logit Link</td>
+<td align="center">2996.642</td>
+<td><strong>2799.036</strong></td>
+</tr>
+</tbody>
+</table>
 
-<pre><code>&gt; summary(M4_result$post_summary)
+<p>According to the BIC and WAIC values in the table above, we can see that model 4 has the lowest WAIC among these three models. We can then summarize the posterior distribution of L4 with <strong><em>summary()</em></strong> function as:</p>
+
+<pre><code>&gt; summary(L4_result$post_summary)
                        Mean         SD     Naive SE Time-series SE
 a[1]           -1.651674140 0.38186812 0.0027002154    0.004879634
 a[2]            1.029455547 0.76992876 0.0054442184    0.007200982
@@ -177,7 +458,7 @@ sigma_alpha_a   0.09272  0.199065  0.304277  0.418378  0.62032
 sigma_b         0.27230  0.384950  0.442368  0.501785  0.62098
 </code></pre>
 
-<p>The notations for each model compoent are:</p>
+<p>The notations for each model component are:</p>
 
 <p></p>
 
@@ -222,9 +503,9 @@ sigma_b         0.27230  0.384950  0.442368  0.501785  0.62098
 
 <p></p>
 
-<p>To get the 95% HPD interval from posterior distribution, we can use the <strong>HPDinterval()</strong> function as:</p>
+<p>To get the 95% HPD interval from posterior distribution, we can use the <strong><em>HPDinterval()</em></strong> function as:</p>
 
-<pre><code>&gt; HPDinterval(M4_result$post_summary)
+<pre><code>&gt; HPDinterval(L4_result$post_summary)
 [[1]]
                    lower       upper
 a[1]           -2.37513723 -0.876461878
@@ -237,9 +518,9 @@ a[4]           -0.71871493  1.922685809
 .
 </code></pre>
 
-<p>To create the density plots and boxplots summarizing the posterior distribution, in particular the condition effects, we can first use the <strong>varnames()</strong> function in R to see all the variable names in the post summary component of the fitted model. We then extract the corresponding variables to create posterior density plots and item effect boxplots for the parameters that we are interested in.</p>
+<p>To create the density plots and boxplots summarizing the posterior distribution, in particular the condition effects, we can first use the <strong><em>varnames()</em></strong> function in R to see all the variable names in the post summary component of the fitted model. We then extract the corresponding variables to create posterior density plots and item effect boxplots for the parameters that we are interested in.</p>
 
-<pre><code>&gt; varnames(M4_result$post_summary)
+<pre><code>&gt; varnames(L4_result$post_summary)
 [1] "a[1]"         "a[2]"         "a[3]"         "a[4]"         "a[5]"          
 [6] "a[6]"         "a[7]"         "a[8]"         "a[9]"         "a[10]"         
 .
@@ -251,7 +532,7 @@ a[4]           -0.71871493  1.922685809
 
 <p>To get the posterior density for "sigma_a", which is standard deviation for random item effect, we need to find the location of  "sigma_a" in this mcmc list which is in column 678. Then we can get:</p>
 
-<pre><code>&gt; plot(M4_result$post_summary[,678])
+<pre><code>&gt; plot(L4_result$post_summary[,678])
 </code></pre>
 
 <p><img src="https://cloud.githubusercontent.com/assets/2337149/13296876/787467fa-dae4-11e5-9932-bea8a89596a1.png" alt="Posterior Plot"></p>
@@ -259,6 +540,7 @@ a[4]           -0.71871493  1.922685809
 <p>To create boxplots of condition effect by item, we can do as follows:</p>
 
 <ol>
+<li>Get the ordered condition level from <em>condition_level</em>.</li>
 <li>Reformat the <em>post_summary</em> part from result as a matrix by <em>as.matirx()</em> function.</li>
 <li>Use <em>varnames()</em> function to locate the columns of fixed effect of condition and mix effect between item and condition for the specific condition.</li>
 <li>Add the fixed condition effect to the corresponding mix effect columns.</li>
@@ -268,10 +550,20 @@ a[4]           -0.71871493  1.922685809
 
 <p>We select the second condition (RD) in the demonstration below:</p>
 
-<pre><code># Since we are looking at second condition, we need to find the location of alpha[2] and all alpha_a[2,]s.
+<pre><code>&gt; L4_result$baseline
+[1] UD
+Levels: RC RD UC UD
+
+&gt; L4_result$condition_level
+[1] UD RD UC RC
+Levels: RC RD UC UD
+
+# Notice that RD is the second condition, we need to find the location of alpha[2] and all alpha_a[2,]s.
 # By observing from varnames() result, we can see that alpha[2] is on the 122 column and all alpha_a[2,]s is located from 126 to 604 by every 4 columns.
-# We have 120 items for each condition
+# We have 120 items for each condition.
+
 &gt; index &lt;- seq(from=126, to=604, by=4)
+
 &gt; rd_item &lt;- as.matrix(M4_result$post_summary)[, index]
 
 &gt; colnames(rd_item) &lt;- seq(from=1,to=120)
