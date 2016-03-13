@@ -358,7 +358,6 @@ sigma_b   0.7007261 0.1246 0.0008812       0.001655
 <p>Suppose we are interested in comparing model 1, model 2 and model 4 with Logit as link function. We can compute the BIC and WAIC values as:</p>
 
 <pre><code># Model 1 with Logit link
-
 &gt; L1_result &lt;- BinBayes(accuracy,"M1","Logit")
 &gt; L1_result$bic
 [1] 2927.731
@@ -366,15 +365,17 @@ sigma_b   0.7007261 0.1246 0.0008812       0.001655
 [1] 2826.157
 
 # Model 2 with Logit link
-
+&gt; L2_result &lt;- BinBayes(accuracy,"M2","Logit")
+&gt; L2_result$bic
+[1] 2925.133
+&gt; L2_result$waic
+[1] 2801.64
 
 
  # Model 4 with Logit link
 &gt; L4_result &lt;- BinBayes(accuracy, "M4", "Logit")
-
 &gt; L4_result$bic
 [1] 2996.642
-
 &gt; L4_result$waic
 [1] 2799.036
 
