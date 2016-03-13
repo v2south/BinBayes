@@ -86,7 +86,7 @@ To get started, Let's download the BinBaye.R and save it in the same directory o
 .
 .
 ```
-Suppose we are interested in comparing model 1 and model 2 with logit link function,  We can first compute BIC and WAIC for both models. 
+Suppose we are interested in comparing model 1 and model 2 with logit link function, We can first compute BIC and WAIC for both models. 
 
 ```
 
@@ -126,7 +126,7 @@ Levels: alt new std
 Levels: alt new std
 ```
 
-According to the BIC and WAIC values,we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Then we can get posterior summary from model 2 by <strong> *summary()*</strong> function.
+According to the BIC and WAIC values, we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Then we can get posterior summary from model 2 by <strong> *summary()*</strong> function.
 
 ```
 > summary(L2_result$post_summary)
@@ -171,7 +171,7 @@ sigma_a   1.64579 0.1410 0.0009969       0.003578
 sigma_b   0.70411 0.1253 0.0008858       0.001730
 
 ```
-The notations for each model compoent are:
+The notations for each model component are:
 
 <center>
 
@@ -202,7 +202,7 @@ Levels: alt new std
 [1] "new"
 
 ```
-Since the basline condition is <em> new </em> now, the posterior summary for condition would also change.
+Since the baseline condition is <em> new </em> now, the posterior summary for condition would also change as:
 
 ```
 > summary(L2_new_result$poster_distribution)
@@ -331,7 +331,7 @@ Suppose we are interested in comparing model 1, model 2 and model 4 with Logit a
 | Model 4 with Logit Link | 2996.642 | <strong>2799.036</strong> |
 
 
-Accodring to the BIC and WAIC values in the table above, we can see that model 4 has the lowest WAIC among these three models. We can then summarize the posterior distribution of L4 with <strong>*summary()*</strong> function as:
+According to the BIC and WAIC values in the table above, we can see that model 4 has the lowest WAIC among these three models. We can then summarize the posterior distribution of L4 with <strong>*summary()*</strong> function as:
 
 ```
 > summary(L4_result$post_summary)
@@ -381,7 +381,7 @@ sigma_alpha_a   0.09272  0.199065  0.304277  0.418378  0.62032
 sigma_b         0.27230  0.384950  0.442368  0.501785  0.62098
 ```
 
-The notations for each model compoent are:
+The notations for each model component are:
 
 <center>
 
@@ -487,4 +487,5 @@ Levels: RC RD UC UD
 > title(main="RD effect by item")
 ```
 <img src="https://cloud.githubusercontent.com/assets/2337149/13300180/b19635fe-daf3-11e5-83e1-f1851c5bfacf.png" width="800">
+
 
