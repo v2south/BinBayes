@@ -46,7 +46,6 @@ For this example, We were investigating the development of memory for visual sce
  
 To get started, Let's download the BinBaye.R and save it in the same directory or folder with dataset Scenes3_Bayesian.txt.
 
-
 ```
 # Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
  > path <- "/Users/Yin/Dropbox/BinBayes/BinBayes.R"
