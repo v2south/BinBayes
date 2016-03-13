@@ -299,7 +299,6 @@ Suppose we are interested in comparing model 1, model 2 and model 4 with Logit a
 
 ```
 # Model 1 with Logit link
-
 > L1_result <- BinBayes(accuracy,"M1","Logit")
 > L1_result$bic
 [1] 2927.731
@@ -307,15 +306,17 @@ Suppose we are interested in comparing model 1, model 2 and model 4 with Logit a
 [1] 2826.157
 
 # Model 2 with Logit link
-
+> L2_result <- BinBayes(accuracy,"M2","Logit")
+> L2_result$bic
+[1] 2925.133
+> L2_result$waic
+[1] 2801.64
 
 
  # Model 4 with Logit link
 > L4_result <- BinBayes(accuracy, "M4", "Logit")
-
 > L4_result$bic
 [1] 2996.642
-
 > L4_result$waic
 [1] 2799.036
 
