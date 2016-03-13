@@ -5,9 +5,9 @@ BinBayes <- function(m_data,model,link,baseline=NULL)
   library(lme4)
   library(rjags)
   
-  # Rename the columns
-  colnames(m_data) <- c("subj","itemID", "cond", "Acc ")
   
+colnames(m_data) <- c("subj","itemID", "cond","Acc")
+
   n.obs<-nrow(m_data)
   n.subject<-length(unique(m_data$subj))
   n.item<-length(unique(m_data$itemID))
@@ -99,7 +99,7 @@ BinBayes <- function(m_data,model,link,baseline=NULL)
     rm(fit)
     post<-coda.samples(model=jags,variable.names=c('beta0','sigma_a','sigma_b','a','b'), n.iter= n.iter.posterior)
     
-    return(list("bic" =L1.bic,"waic"=L1.waic,"poster_distribution" = post, "condition_level" = labels.cond, "baseline"= baseline))
+    return(list("bic" =L1.bic,"waic"=L1.waic,"post_summary" = post, "condition_level" = labels.cond, "baseline"= baseline))
     }
   
   else if (M == "M2_Logit")
@@ -162,7 +162,7 @@ update(jags, 1000)
     #sample from stationary distribution
     post<-coda.samples(model=jags,variable.names=c('beta0','sigma_a','sigma_b','alpha','a','b'), n.iter= n.iter.posterior)
         
-    return(list("bic" =L2.bic,"waic"=L2.waic,"poster_distribution" = post, "condition_level" = labels.cond, "baseline"= baseline))
+    return(list("bic" =L2.bic,"waic"=L2.waic,"post_summary" = post, "condition_level" = labels.cond, "baseline"= baseline))
     }
   
   
@@ -238,7 +238,7 @@ update(jags, 1000)
     
     post <- coda.samples(model=jags, variable.names=c('beta0','sigma_a','sigma_b','alpha','a','b','sigma_alpha_b','alpha_b'), n.iter= n.iter.posterior)
     
-    return(list("bic" =L3.bic,"waic"=L3.waic,"poster_distribution" = post, "condition_level" = labels.cond, "baseline"= baseline))
+    return(list("bic" =L3.bic,"waic"=L3.waic,"post_summary" = post, "condition_level" = labels.cond, "baseline"= baseline))
   }
   
   else if (M == "M4_Logit")
@@ -306,7 +306,7 @@ update(jags, 1000)
 	rm(log_lik)
 	rm(fit)
 	post <- coda.samples(model=jags, variable.names=c('beta0','sigma_a','sigma_b','alpha','a','b','sigma_alpha_a','alpha_a'), n.iter= n.iter.posterior)
-    return(list("bic" =L4.bic,"waic"=L4.waic,"poster_distribution" = post, "condition_level" = labels.cond, "baseline"= baseline))
+    return(list("bic" =L4.bic,"waic"=L4.waic,"post_summary" = post, "condition_level" = labels.cond, "baseline"= baseline))
   }
 
 	else if (M == "M5_Logit")
@@ -387,7 +387,7 @@ rm(log_lik)
 rm(fit)
 
 post <- coda.samples(model=jags, variable.names=c('beta0','sigma_a','sigma_b','alpha','a','b','sigma_alpha_a','sigma_alpha_b','alpha_a','alpha_b'), n.iter= n.iter.posterior)
-    return(list("bic" =L5.bic,"waic"=L5.waic,"poster_distribution" = post, "condition_level" = labels.cond, "baseline"= baseline))
+    return(list("bic" =L5.bic,"waic"=L5.waic,"post_summary" = post, "condition_level" = labels.cond, "baseline"= baseline))
 	}
 	
 	else if (M == "M1_Probit")
@@ -441,7 +441,7 @@ rm(fit)
 
   post<-coda.samples(model=jags,variable.names=c('beta0','sigma_a','sigma_b','a','b'), n.iter= n.iter.posterior)
 
-    return(list("bic" =P1.bic,"waic"=P1.waic,"poster_distribution" = post, "condition_level" = labels.cond, "baseline"= baseline))
+    return(list("bic" =P1.bic,"waic"=P1.waic,"post_summary" = post, "condition_level" = labels.cond, "baseline"= baseline))
 	}
 	
 	else if (M == "M2_Probit")
@@ -498,7 +498,7 @@ rm(fit)
 
  post<-coda.samples(model=jags,variable.names=c('beta0','sigma_a','sigma_b','a','b','alpha'), n.iter= n.iter.posterior)
  
-    return(list("bic" =P2.bic,"waic"=P2.waic,"poster_distribution" = post, "condition_level" = labels.cond, "baseline"= baseline))
+    return(list("bic" =P2.bic,"waic"=P2.waic,"post_summary" = post, "condition_level" = labels.cond, "baseline"= baseline))
    	}
    	
 	else if (M == "M3_Probit")
@@ -568,7 +568,7 @@ rm(fit)
    	
  post<-coda.samples(model=jags,variable.names=c('beta0','sigma_a','sigma_b','a','b','alpha_b','sigma_alpha_b'), n.iter= n.iter.posterior)
  
-    return(list("bic" =P3.bic,"waic"=P3.waic,"poster_distribution" = post, "condition_level" = labels.cond, "baseline"= baseline))
+    return(list("bic" =P3.bic,"waic"=P3.waic,"post_summary" = post, "condition_level" = labels.cond, "baseline"= baseline))
    	}
    	
    	else if (M == "M4_Probit")
@@ -638,7 +638,7 @@ rm(fit)
 
 post<-coda.samples(model=jags,variable.names=c('beta0','sigma_a','sigma_b','a','b','alpha_a','sigma_alpha_a'), n.iter= n.iter.posterior)
  
-    return(list("bic" =P4.bic,"waic"=P4.waic,"poster_distribution" = post, "condition_level" = labels.cond, "baseline"= baseline))
+    return(list("bic" =P4.bic,"waic"=P4.waic,"post_summary" = post, "condition_level" = labels.cond, "baseline"= baseline))
    	}
    	
    	 	else if (M == "M5_Probit")
@@ -721,7 +721,7 @@ rm(fit)
 
 post<-coda.samples(model=jags,variable.names=c('beta0','sigma_a','sigma_b','a','b','alpha_a','alpha_b','sigma_alpha_a','sigma_alpha_b'), n.iter= n.iter.posterior)
 
-    return(list("bic" =P5.bic,"waic"=P5.waic,"poster_distribution" = post, "condition_level" = labels.cond, "baseline"= baseline))
+    return(list("bic" =P5.bic,"waic"=P5.waic,"post_summary" = post, "condition_level" = labels.cond, "baseline"= baseline))
 
    	}
    	
