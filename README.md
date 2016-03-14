@@ -1,16 +1,17 @@
 # BinBayes.R
 
-BinBayes.R is the software implementation of Bayesian approach for the mixed effects analysis of accuracy studies using mixed binomial regression models. 
+BinBayes.R is the software implementation for the paper "A Bayesian approach for the mixed effects analysis of repeated measures accuracy studies."
 
 ## Introduction 
 
-We assume that the user has both the [<strong>R</strong>](https://cran.r-project.org/mirrors.html) and [<strong>JAGS</strong>](http://mcmc-jags.sourceforge.net/) software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require following three R packages: [<strong>coda</strong>](https://cran.r-project.org/web/packages/coda/index.html),[ <strong>lme4</strong>](https://cran.r-project.org/web/packages/lme4/index.html) and 
+We assume that the user has both the [<strong>R</strong>](https://cran.r-project.org/mirrors.html) and [<strong>JAGS</strong>](http://mcmc-jags.sourceforge.net/) software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require the following three R packages: [<strong>coda</strong>](https://cran.r-project.org/web/packages/coda/index.html),[ <strong>lme4</strong>](https://cran.r-project.org/web/packages/lme4/index.html) and 
 [<strong>rjags</strong>](https://cran.r-project.org/web/packages/rjags/index.html). 
 To install these R packages, please see this [manual](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) from CRAN. 
 
 The R function BinBayes.R requires four input variables as follows:
 
-* <strong> m_data </strong> is a matrix or data frame containing the data from your study. This data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be listed in the order of *subject*, *item number*, *condition*, *accuracy* respectively.
+* <strong> m_data </strong> is a matrix or data frame containing the data from your study. This data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be in the
+following order: subject identifier, item identifier, identifier for experimental condition, accuracy response..
 
 * <strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.
 * <strong> model </strong>  is a string taking five possible values as follows:
@@ -19,7 +20,7 @@ The R function BinBayes.R requires four input variables as follows:
   * "M3", model with random subject and item effects and where the effect of experimental condition varies across subjects.
   * "M4", model with random subject and item effects and where the effect of experimental condition varies across items.
   * "M5", model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.
-* <strong>baseline</strong> is a string that specifies the baseline condition. It will automatically pick one condition as baseline if no specific condition is given.
+* <strong>baseline</strong> is a string that specifies the label for the baseline condition. The software will automatically pick one condition as baseline if no specific condition is given.
 
 
 As illustrated below, the output of the BinBayes.R function will consist of an object having five components with the following names:
@@ -30,13 +31,13 @@ As illustrated below, the output of the BinBayes.R function will consist of an o
 * <strong>condition_level</strong> is the ordered condition level in the model. The first level would be the baseline.
 * <strong>baseline</strong> is the baseline condition.
 
-We will illustrate how to use BinBayes.R in the following two examples. Download BinBayes.R from [here](https://raw.githubusercontent.com/v2south/BinBayes/master/R_script/BinBayes.R)
+We will illustrate how to use BinBayes.R in the following two examples. Download BinBayes.R from [here](https://raw.githubusercontent.com/v2south/BinBayes/master/R_script/BinBayes.R).
 
 
 ## Example 1
 
 
-For this example, We were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. Dataset for this example could be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt) and it has:
+For this example, we were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. The dataset for this example can be downloaded here [here](https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt) and it has::
 
  *	30 subjects
  *	3 conditions
@@ -44,7 +45,7 @@ For this example, We were investigating the development of memory for visual sce
  *	3550 total observations
  *	Overall accuracy 89.8%
  
-To get started, Let's download the BinBaye.R and save it in the same directory or folder with dataset Scenes3_Bayesian.txt.
+To get started, let's download the BinBaye.R and save it in the same directory or folder with dataset Scenes3_Bayesian.txt.
 
 ```
 # Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
@@ -85,7 +86,7 @@ To get started, Let's download the BinBaye.R and save it in the same directory o
 .
 .
 ```
-Suppose we are interested in comparing model 1 and model 2 with logit link function, We can first compute BIC and WAIC for both models. 
+Suppose we are interested in comparing model 1, which has no effect of the experimental condition and model 2, which has fixed effect for the experimental condition with logit link function, we can first compute BIC and WAIC for both models. 
 
 ```
 
@@ -125,7 +126,7 @@ Levels: alt new std
 Levels: alt new std
 ```
 
-According to the BIC and WAIC values, we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Then we can get posterior summary from model 2 by <strong> *summary()*</strong> function.
+According to the BIC and WAIC values, we can see that model 2 with random effects for subject and item and a fixed effect for condition is optimal among the these two models. Then we can get a posterior summary from model 2 by <strong> *summary()*</strong> function.
 
 ```
 > summary(L2_result$post_summary)
@@ -135,7 +136,7 @@ Thinning interval = 1
 Number of chains = 1 
 Sample size per chain = 20000 
 
-1. Empirical mean and standard deviation for each variable,
+1. Posterior mean and standard deviation for each variable,
    plus standard error of the mean:
 
              Mean     SD  Naive SE Time-series SE
@@ -170,7 +171,7 @@ sigma_a   1.64579 0.1410 0.0009969       0.003578
 sigma_b   0.70411 0.1253 0.0008858       0.001730
 
 ```
-The notations for each model component are:
+The notation for each of the model components is as follows:
 
 <center>
 
@@ -186,7 +187,7 @@ The notations for each model component are:
 </center>
 
 
-Also, notice that baseline condition is <em>std</em> for both models since we didn't specify the baseline condition at beginning. We can also set the baseline to <em>new</em> as:
+Also, notice that the baseline condition is <em>std</em> for both models since we didn't specify the baseline condition at beginning. We can also set the baseline to <em>new</em> as follows:
 
 ```
 > L2_new_result <- BinBayes(accuracy, "M2", "Logit","new")
@@ -201,7 +202,7 @@ Levels: alt new std
 [1] "new"
 
 ```
-Since the baseline condition is <em> new </em> now, the posterior summary for condition would also change as:
+Since the baseline condition is now <em> new </em> , the posterior summary for condition would also change as:
 
 ```
 > summary(L2_new_result$poster_distribution)
@@ -211,7 +212,7 @@ Thinning interval = 1
 Number of chains = 1 
 Sample size per chain = 20000 
 
-1. Empirical mean and standard deviation for each variable,
+1. Posterior mean and standard deviation for each variable,
    plus standard error of the mean:
 
                Mean     SD  Naive SE Time-series SE
@@ -258,7 +259,7 @@ sigma_b   0.7007261 0.1246 0.0008812       0.001655
 
 ## Example 2
 
-For this example, we were investigating the influence of a semantic context on the identification of printed words shown either under clear (high contrast) or degraded (low contrast) conditions. The semantic context consisted of a prime word presented in advance of the target item. On critical trials, the target item was a word and on other trials the target was a nonword. The task was to classify the target on each trial as a word or a nonword (this is called a "lexical decision" task). Our interest is confined to trials with word targets. The prime word was either semantically related or unrelated to the target word (e.g., granite-STONE vs. attack-FLOWER), and the target word was presented either in clear or degraded form. Combining these two factors produced four conditions (related-clear, unrelated-clear, related-degraded, unrelated-degraded). For the current analysis, accuracy of response was the dependent measure. Dataset for this example could be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Prime3_Bayesian.txt) and it has:
+For this example, we were investigating the influence of a semantic context on the identification of printed words shown either under clear (high contrast) or degraded (low contrast) conditions. The semantic context consisted of a prime word presented in advance of the target item. On critical trials, the target item was a word and on other trials the target was a nonword. The task was to classify the target on each trial as a word or a nonword (this is called a "lexical decision" task). Our interest is confined to trials with word targets. The prime word was either semantically related or unrelated to the target word (e.g., granite-STONE vs. attack-FLOWER), and the target word was presented either in clear or degraded form. Combining these two factors produced four conditions (related-clear, unrelated-clear, related-degraded, unrelated-degraded). For the current analysis, accuracy of response was the dependent measure. The dataset for this example can be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Prime3_Bayesian.txt) and it has:
 
  *	72 subjects
  *	4 conditions
@@ -266,7 +267,7 @@ For this example, we were investigating the influence of a semantic context on t
  *	8640 total observations
  *	Overall accuracy 95.4%
 
-To get started, Let's download the BinBaye.R and save it in the same directory or folder with dataset Prime3_Bayesian.txt.
+To get started, let's download the BinBaye.R and save it in the same directory or folder with dataset Prime3_Bayesian.txt.
 
 ```
  # Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
@@ -295,7 +296,7 @@ To get started, Let's download the BinBaye.R and save it in the same directory o
 
 ```
 
-Suppose we are interested in comparing model 1, model 2 and model 4 with Logit as link function. We can compute the BIC and WAIC values as:
+Suppose we are interested in comparing model 1, model 2 and model 4 with Logit as the link function. We can compute the BIC and WAIC values as:
 
 ```
 # Model 1 with Logit link
@@ -331,7 +332,7 @@ Suppose we are interested in comparing model 1, model 2 and model 4 with Logit a
 | Model 4 with Logit Link | 2996.642 | <strong>2799.036</strong> |
 
 
-According to the BIC and WAIC values in the table above, we can see that model 4 has the lowest WAIC among these three models. We can then summarize the posterior distribution of L4 with <strong>*summary()*</strong> function as:
+According to the BIC and WAIC values in the table above, we can see that model 4 has the lowest WAIC among these three models. We can then summarize the posterior distribution of L4 with the <strong>*summary()*</strong> function as:
 
 ```
 > summary(L4_result$post_summary)
@@ -381,7 +382,7 @@ sigma_alpha_a   0.09272  0.199065  0.304277  0.418378  0.62032
 sigma_b         0.27230  0.384950  0.442368  0.501785  0.62098
 ```
 
-The notations for each model component are:
+The notation for each model component is as follows:
 
 <center>
 
@@ -397,7 +398,7 @@ The notations for each model component are:
 
 </center>
 
-To get the 95% HPD interval from posterior distribution, we can use the <strong>*HPDinterval()*</strong> function as:
+To get the 95% HPD interval from the posterior distribution, we can use the <strong>*HPDinterval()*</strong> function as:
 
 ```
 > HPDinterval(L4_result$post_summary)
