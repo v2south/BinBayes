@@ -98,7 +98,9 @@ following order: subject identifier, item identifier, identifier for experimenta
  &gt; library(rjags)
 
 # Read data into R
-&gt; accuracy &lt;- read.table("/Users/Yin/Dropbox/BinBayes/Scenes3_Bayesian.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','factor','numeric'))
+&gt; accuracy &lt;- read.table("/Users/Yin/Dropbox/BinBayes/Scenes3_Bayesian.txt", header=TRUE, na.strings='.',
+
+colClasses=c('factor','factor','factor','numeric'))
 &gt; #remove cases with missing values
 &gt; accuracy&lt;-na.omit(accuracy)
 &gt; accuracy
