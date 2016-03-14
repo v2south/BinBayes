@@ -54,6 +54,11 @@ To get started, let's download the BinBaye.R and save it in the same directory o
  # Load BinBayes.R
  > source(path)
  
+ # Load required packages 
+ > library(coda)
+ > library(lme4)
+ > library(rjags)
+ 
 # Read data into R
 > accuracy <- read.table("/Users/Yin/Dropbox/BinBayes/Scenes3_Bayesian.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','factor','numeric'))
 > #remove cases with missing values
