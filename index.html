@@ -90,6 +90,11 @@ following order: subject identifier, item identifier, identifier for experimenta
  # Load BinBayes.R
  &gt; source(path)
 
+ # Load required packages 
+ &gt; library(coda)
+ &gt; library(lme4)
+ &gt; library(rjags)
+
 # Read data into R
 &gt; accuracy &lt;- read.table("/Users/Yin/Dropbox/BinBayes/Scenes3_Bayesian.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','factor','numeric'))
 &gt; #remove cases with missing values
