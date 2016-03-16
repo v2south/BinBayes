@@ -470,12 +470,12 @@ Levels: RC RD UC UD
 
 > index <- seq(from=126, to=604, by=4)
 
-> rd_item <- as.matrix(M4_result$post_summary)[, index]
+> rd_item <- as.matrix(L4_result$post_summary)[, index]
 
 > colnames(rd_item) <- seq(from=1,to=120)
 
 > # Fixed effect from second condition(RD)
-> alpha_2 <- as.matrix(M4_result$post_summary)[,122]
+> alpha_2 <- as.matrix(L4_result$post_summary)[,122]
 > # Add the fixed effect to the mix effect
 
 > for(i in  1:120){
