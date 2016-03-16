@@ -86,8 +86,7 @@ following order: subject identifier, item identifier, identifier for experimenta
 
 <p>To get started, let's download the BinBaye.R and save it in the same directory or folder with dataset Scenes3_Bayesian.txt.</p>
 
-<pre><code># Path is the file directory where you save the BinBayes.R and 
-dataset Prime3_Bayesian.txt should be in the same directory
+<pre><code># Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
  &gt; path &lt;- "/Users/Yin/Dropbox/BinBayes/BinBayes.R"
 
  # Load BinBayes.R
@@ -99,8 +98,7 @@ dataset Prime3_Bayesian.txt should be in the same directory
  &gt; library(rjags)
 
 # Read data into R
-&gt; accuracy &lt;- read.table("/Users/Yin/Dropbox/BinBayes/Scenes3_Bayesian.txt", header=TRUE, na.strings='.',
-colClasses=c('factor','factor','factor','numeric'))
+&gt; accuracy &lt;- read.table("/Users/Yin/Dropbox/BinBayes/Scenes3_Bayesian.txt", header=TRUE, na.strings='.', colClasses=c('factor','factor','factor','numeric'))
 &gt; #remove cases with missing values
 &gt; accuracy&lt;-na.omit(accuracy)
 &gt; accuracy
@@ -577,7 +575,7 @@ Levels: RC RD UC UD
 
 &gt; index &lt;- seq(from=126, to=604, by=4)
 
-&gt; rd_item &lt;- as.matrix(M4_result$post_summary)[, index]
+&gt; rd_item &lt;- as.matrix(L4_result$post_summary)[, index]
 
 &gt; colnames(rd_item) &lt;- seq(from=1,to=120)
 
