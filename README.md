@@ -28,7 +28,7 @@ As illustrated below, the output of the BinBayes.R function will consist of an o
 * <strong>bic</strong> is the value of the BIC for the fitted model.
 * <strong>waic</strong>  is the value of the WAIC for the fitted model.
 * <strong>post_summary</strong> is an mcmc list containing samples from the posterior distribution for all components of the fitted model.
-* <strong>condition_level</strong> is the ordered condition level in the model. The first level would be the baseline.
+* <strong>condition_level</strong> is the ordered condition level in the model. The first level would be the baseline if no specific condition is given as baseline condition.
 * <strong>baseline</strong> is the baseline condition.
 
 We will illustrate how to use BinBayes.R in the following two examples. Download BinBayes.R from [here](https://raw.githubusercontent.com/v2south/BinBayes/master/R_script/BinBayes.R).
