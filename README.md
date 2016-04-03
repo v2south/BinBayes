@@ -492,6 +492,6 @@ Levels: RC RD UC UD
 > abline(h=0,col="red")
 > title(main="RD effect by item")
 ```
-<img src="https://cloud.githubusercontent.com/assets/2337149/13300180/b19635fe-daf3-11e5-83e1-f1851c5bfacf.png" width="800">
+<img src="https://cloud.githubusercontent.com/assets/2337149/14230795/8c088daa-f91b-11e5-806b-d4a629561398.png" width="800">
 
 
