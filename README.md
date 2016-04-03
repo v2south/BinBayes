@@ -514,7 +514,7 @@ Suppose we want to find out the label of the item that ranks 99th on the boxplot
       2.5%      97.5% 
 -0.1418271  1.4581923 
 ```
-Also, a kernal density estimate for item identified above could be plotted as:
+Also, a kernel density estimation for item identified above, which is the posterior distribution for the effect of experimental condition RD specific to item i020, could be plotted as:
 
 ```
 # Plot a kernel density estimate of the posterior density for the item identified above
@@ -523,5 +523,4 @@ plot(p_99,main="Kernel Density Estimation for Item i020")
 ```
 
 <img src="https://cloud.githubusercontent.com/assets/2337149/14234838/334d05d8-f9a2-11e5-9195-e406dc2dc4c7.png" width="800">
-
 
