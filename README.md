@@ -494,13 +494,28 @@ Levels: RC RD UC UD
 ```
 <img src="https://cloud.githubusercontent.com/assets/2337149/14230795/8c088daa-f91b-11e5-806b-d4a629561398.png" width="800">
 
-To get one particular Item effect (for example Item 99) from the result above, we can do as follows:
 
 ```
-# Get the index of Item 99 and extract the corresponding column from item effect matrix rd_item above
-index_rd_item_99 <- which(colnames(rd_item) == 99)
-item_99_effect <- rd_item[, index_rd_item_99]
+# To get the label of item that ranks 99th in the boxplot above 
+> label_index_99th <- as.numeric(colnames(rd_item)[99])
+> label_index_99th
+[1] 20
+> unique(accuracy$itemID)[label_index_99th]
+[1] i020
+120 Levels: i001 i002 i003 i004 i005 i006 i007 i008 i009 i010 i011 ... i120
+
+> # Find the posterior median  and 95% HPD interval for this item
+> median(rd_item[,99])
+[1] 0.574344
+> quantile(rd_item[,99], probs=c(0.025,0.975))
+      2.5%      97.5% 
+-0.1418271  1.4581923 
+
+# Plot a kernel density estimate of the posterior density for the item identified above
+p_99 <- density(rd_item[,99])
+plot(p_99,main="Kernel Density Estimation for Item i020")
 ```
 
+<img src="https://cloud.githubusercontent.com/assets/2337149/14234838/334d05d8-f9a2-11e5-9195-e406dc2dc4c7.png" width="800">
 
 
