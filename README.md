@@ -494,6 +494,7 @@ Levels: RC RD UC UD
 ```
 <img src="https://cloud.githubusercontent.com/assets/2337149/14230795/8c088daa-f91b-11e5-806b-d4a629561398.png" width="800">
 
-To extract the RD effect by item for one particular item, for example, Item 56. We can do as follow:
+To get one particular Item effect, for example Item 56, from the result above, we can do as follows:
+
 
 
