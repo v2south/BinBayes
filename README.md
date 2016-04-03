@@ -494,23 +494,29 @@ Levels: RC RD UC UD
 ```
 <img src="https://cloud.githubusercontent.com/assets/2337149/14230795/8c088daa-f91b-11e5-806b-d4a629561398.png" width="800">
 
+Suppose we want to find out the label of the item that ranks 99th on the boxplot above and get the median of this item effect. We can do as follows: 
 
 ```
 # To get the label of item that ranks 99th in the boxplot above 
 > label_index_99th <- as.numeric(colnames(rd_item)[99])
 > label_index_99th
 [1] 20
+
+# Item label in the dataset 
 > unique(accuracy$itemID)[label_index_99th]
 [1] i020
 120 Levels: i001 i002 i003 i004 i005 i006 i007 i008 i009 i010 i011 ... i120
 
-> # Find the posterior median  and 95% HPD interval for this item
+# Find the posterior median and 95% HPD interval for this item effect
 > median(rd_item[,99])
 [1] 0.574344
 > quantile(rd_item[,99], probs=c(0.025,0.975))
       2.5%      97.5% 
 -0.1418271  1.4581923 
+```
+Also, a kernal density estimate for item identified above could be plotted as:
 
+```
 # Plot a kernel density estimate of the posterior density for the item identified above
 p_99 <- density(rd_item[,99])
 plot(p_99,main="Kernel Density Estimation for Item i020")
