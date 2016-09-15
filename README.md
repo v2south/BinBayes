@@ -8,16 +8,17 @@ We assume that the user has both the [<strong>R</strong>](https://cran.r-project
 [<strong>rjags</strong>](https://cran.r-project.org/web/packages/rjags/index.html). 
 To install these R packages, please see this [manual](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) from CRAN. 
 
-The R function BinBayes.R requires four input variables as follows:
+The R function BinBayes.R requires five input variables as follows:
 
+* <strong>factor</strong> is a numeric indicator. 1 is for single factor design and 2 is for two factor design. 
 * <strong> m_data </strong> is a matrix or data frame containing the data from your study. 
-  * For <strong>Single Factor Design </strong>, this data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be in the
+  * For <strong>single factor design</strong>, this data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be in the
 following order: subject identifier, item identifier, identifier for experimental condition, accuracy response.
-  * For <strong>Two Factor Design </strong>, this data frame should have five columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for factor 1; the fourth column contains the identifier for factor 2; the fifth column holds a binary valued accuracy response. These columns should be in the
+  * For <strong>two factor design</strong>, this data frame should have five columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for factor 1; the fourth column contains the identifier for factor 2; the fifth column holds a binary valued accuracy response. These columns should be in the
 following order: subject identifier, item identifier, identifier for factor 1, indetifier for factor 2, accuracy response.
 
 * <strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.
-* <strong> model_struct </strong>. 
+* <strong> model_struct </strong> specifies the model structure. 
  
   For <strong>single factor design</strong>,  this is a numeric number taking five possible values as follows:
   * 1, baseline model with random subject and item effects with no effect of experimental condition.
@@ -26,7 +27,7 @@ following order: subject identifier, item identifier, identifier for factor 1, i
   * 4, model with random subject and item effects and where the effect of experimental condition varies across items.
   * 5, model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.
   
-  For <strong>two factor design</strong>, this is a vector of three elements. The first two, which specify the model structure for factor 1 and factor 2, take the values from 1 to 5 similar to single factor design. The last element takes two values that specifies whether the interaction between two factors exist. 0 denotes no interaction and 1 denotes interaction.
+  For <strong>two factor design</strong>, this is a vector of three elements. The first two, which specify the model structure for factor 1 and factor 2, can take the values from 1 to 5 similar to single factor design. The last element takes two values that specifies whether the interaction between two factors exist. 0 denotes no interaction and 1 denotes interaction.
 
 
  
@@ -106,7 +107,7 @@ Suppose we are interested in comparing model 1, which has no effect of the exper
 ```
 
 # Model 1 with Logit link
-> L1_result <- BinBayes(accuracy, "M1", "Logit")
+> L1_result <- BinBayes(1,accuracy, 1, "Logit")
 Loading required package: Matrix
 Linked to JAGS 3.4.0
 Loaded modules: basemod,bugs
@@ -128,7 +129,7 @@ Levels: alt new std
 
 
 # Model 2 with Logit link
-> L2_result <- BinBayes(accuracy, "M2", "Logit")
+> L2_result <- BinBayes(1, accuracy, 2, "Logit")
 > L2_result$bic
 [1] 2020.746
 > L2_result$waic
@@ -205,7 +206,7 @@ The notation for each of the model components is as follows:
 Also, notice that the baseline condition is <em>std</em> for both models since we didn't specify the baseline condition at beginning. We can also set the baseline to <em>new</em> as follows:
 
 ```
-> L2_new_result <- BinBayes(accuracy, "M2", "Logit","new")
+> L2_new_result <- BinBayes(1,accuracy, 2, "Logit","new")
 > L2_new_result$bic
 [1] 2020.746
 > L2_new_result$waic
@@ -315,14 +316,14 @@ Suppose we are interested in comparing model 1, model 2 and model 4 with Logit a
 
 ```
 # Model 1 with Logit link
-> L1_result <- BinBayes(accuracy,"M1","Logit")
+> L1_result <- BinBayes(1,accuracy,1,"Logit")
 > L1_result$bic
 [1] 2927.731
 > L1_result$waic
 [1] 2826.157
 
 # Model 2 with Logit link
-> L2_result <- BinBayes(accuracy,"M2","Logit")
+> L2_result <- BinBayes(1,accuracy,2,"Logit")
 > L2_result$bic
 [1] 2925.133
 > L2_result$waic
@@ -330,7 +331,7 @@ Suppose we are interested in comparing model 1, model 2 and model 4 with Logit a
 
 
  # Model 4 with Logit link
-> L4_result <- BinBayes(accuracy, "M4", "Logit")
+> L4_result <- BinBayes(1,accuracy, 4, "Logit")
 > L4_result$bic
 [1] 2996.642
 > L4_result$waic
