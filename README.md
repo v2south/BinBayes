@@ -11,19 +11,26 @@ To install these R packages, please see this [manual](https://cran.r-project.org
 The R function BinBayes.R requires four input variables as follows:
 
 * <strong> m_data </strong> is a matrix or data frame containing the data from your study. 
-  * For <strong>Single Factor Design </strong> This data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be in the
+  * For <strong>Single Factor Design </strong>, this data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be in the
 following order: subject identifier, item identifier, identifier for experimental condition, accuracy response.
-  * For <strong>Two Factor Design </strong> This data frame should have five columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for factor 1; the fourth column contains the identifier for factor 2; the fifth column holds a binary valued accuracy response. These columns should be in the
-following order: subject identifier, item identifier, identifier for factor 1, indetifier for factor 2,  accuracy response.
+  * For <strong>Two Factor Design </strong>, this data frame should have five columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for factor 1; the fourth column contains the identifier for factor 2; the fifth column holds a binary valued accuracy response. These columns should be in the
+following order: subject identifier, item identifier, identifier for factor 1, indetifier for factor 2, accuracy response.
 
 * <strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.
-* <strong> model </strong>  is a string taking five possible values as follows:
-  * "M1", baseline model with random subject and item effects with no effect of experimental condition.
-  * "M2", model with random subject and item effects and with a fixed effect for the experimental condition.
-  * "M3", model with random subject and item effects and where the effect of experimental condition varies across subjects.
-  * "M4", model with random subject and item effects and where the effect of experimental condition varies across items.
-  * "M5", model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.
-* <strong>baseline</strong> is a string for single factor design that specifies the label for the baseline condition. The software will automatically pick one condition as baseline if no specific condition is given. For two factor design, this is a vector of two string variable that specifies the label of bassline condition for factor 1 and factor 2 respectively.
+* <strong> model_struct </strong>. 
+ 
+  For <strong>single factor design</strong>,  this is a numeric number taking five possible values as follows:
+  * 1, baseline model with random subject and item effects with no effect of experimental condition.
+  * 2, model with random subject and item effects and with a fixed effect for the experimental condition.
+  * 3, model with random subject and item effects and where the effect of experimental condition varies across subjects.
+  * 4, model with random subject and item effects and where the effect of experimental condition varies across items.
+  * 5, model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.
+  
+  For <strong>two factor design</strong>, this is a vector of three elements. The first two, which specify the model structure for factor 1 and factor 2, take the values from 1 to 5 similar to single factor design. The last element takes two values that specifies whether the interaction between two factors exist. 0 denotes no interaction and 1 denotes interaction.
+
+
+ 
+* <strong>baseline</strong> is a string for single factor design that specifies the label for the baseline condition. The software will automatically pick one condition as baseline if no specific condition is given. For two factor design, this is a vector of two string variables that specifies the label of bassline condition for factor 1 and factor 2 respectively.
 
 
 As illustrated below, the output of the BinBayes.R function will consist of an object having five components with the following names:
@@ -37,7 +44,7 @@ As illustrated below, the output of the BinBayes.R function will consist of an o
 We will illustrate how to use BinBayes.R in the following two examples. Download BinBayes.R from [here](https://raw.githubusercontent.com/v2south/BinBayes/master/R_script/BinBayes.R).
 
 
-## Example 1
+## Example 1 - Single Factor Design
 
 
 For this example, we were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. The dataset for this example can be downloaded here [here](https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt) and it has::
@@ -265,7 +272,7 @@ sigma_b   0.7007261 0.1246 0.0008812       0.001655
 
 
 
-## Example 2
+## Example 2 - Single Factor Design
 
 For this example, we were investigating the influence of a semantic context on the identification of printed words shown either under clear (high contrast) or degraded (low contrast) conditions. The semantic context consisted of a prime word presented in advance of the target item. On critical trials, the target item was a word and on other trials the target was a nonword. The task was to classify the target on each trial as a word or a nonword (this is called a "lexical decision" task). Our interest is confined to trials with word targets. The prime word was either semantically related or unrelated to the target word (e.g., granite-STONE vs. attack-FLOWER), and the target word was presented either in clear or degraded form. Combining these two factors produced four conditions (related-clear, unrelated-clear, related-degraded, unrelated-degraded). For the current analysis, accuracy of response was the dependent measure. The dataset for this example can be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Prime3_Bayesian.txt) and it has:
 
@@ -524,6 +531,7 @@ Also, a kernel density estimation for item identified above, which is the poster
 p_99 <- density(rd_item[,99])
 plot(p_99,main="Kernel Density Estimation for Item i020")
 ```
+## Example 3 - Two Factor Design
 
 <img src="https://cloud.githubusercontent.com/assets/2337149/14234838/334d05d8-f9a2-11e5-9195-e406dc2dc4c7.png" width="800">
 
