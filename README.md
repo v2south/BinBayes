@@ -532,6 +532,9 @@ Also, a kernel density estimation for item identified above, which is the poster
 p_99 <- density(rd_item[,99])
 plot(p_99,main="Kernel Density Estimation for Item i020")
 ```
+<img src="https://cloud.githubusercontent.com/assets/2337149/14234838/334d05d8-f9a2-11e5-9195-e406dc2dc4c7.png" width="800">
+
+
 ## Example 3 - Two Factor Design
 
 The study produced trial-by-trial data for K = 73 subjects. Each subject experienced 480 trials in which a word prime was presented (requiring no response from the observer), followed by either a word or a nonword as a target that required a response. Subjects classified the targets as Word or Nonword. Our interest for the current analysis is in the accuracy (or error) rate for trials with Word targets, so trials with Nonword targets (240 trials per subject) are excluded. The word targets were words that occur with either high (HF) or low frequency (LF) in English (e.g., MORE vs TUSK). Word frequency is the first factor and the corresponding baseline condition in this case is LF. The second factor included in our analysis is viewing condition, whereby target items are presented either in Clear (full contrast) or Degraded (low contrast) displays, and we take the baseline condition for this factor to be the Degraded condition. That is:
@@ -543,5 +546,4 @@ The study produced trial-by-trial data for K = 73 subjects. Each subject experie
 * Total number of observations is 17,520.
 * Overall accuracy 95.2%
 
-<img src="https://cloud.githubusercontent.com/assets/2337149/14234838/334d05d8-f9a2-11e5-9195-e406dc2dc4c7.png" width="800">
 
