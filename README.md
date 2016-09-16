@@ -545,5 +545,27 @@ The study produced trial-by-trial data for K = 73 subjects. Each subject experie
 * 240 items.
 * Total number of observations is 17,520.
 * Overall accuracy 95.2%
+Example dataset could be downloaed from here.
+
+```
+#read in dataset two factor dataset 
+accuracy <- read.table("/Users/Yin/Dropbox/data_set/Prime1A raw collated.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','numeric','factor','factor','factor','factor','factor','numeric','factor'))
+
+#only keep the columns that are required for this analysis
+keep<-c('S', 'TargetShown','Contrast', 'TargetType', 'score')
+accuracy<-accuracy[,keep]
+
+#remove trials where TargetType=NW
+accuracy<-accuracy[accuracy$TargetType!='NW',]
+accuracy<-droplevels(accuracy) #make sure NW is dropped as an unused factor level
+
+#remove cases with missing values 
+accuracy<-na.omit(accuracy)
+
+#convert the response to 0/1
+accuracy$score<-as.numeric(accuracy$score=='C')
+
+```
+
 
 
