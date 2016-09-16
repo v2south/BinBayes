@@ -569,13 +569,12 @@ accuracy$score<-as.numeric(accuracy$score=='C')
 
 ```
 
-| Model           | Link | Model Structure for Factors | WAIC | BIC |
-|-----------------|------|-----------------------------|------|-----|
-| L11<sub>0</sub> |      |                             |      |     |
-|                 |      |                             |      |     |
-|                 |      |                             |      |     |
-|                 |      |                             |      |     |
-|                 |      |                             |      |     |
-|                 |      |                             |      |     |
-
+|      Model      |  Link  | Model Structure for Factors |          WAIC         |          BIC          |
+|:---------------:|:------:|:---------------------------:|:---------------------:|:---------------------:|
+| L11<sub>0</sub> |  Logit |             Null            |          5515         |          5673         |
+| L21<sub>0</sub> |  Logit |    F1 -  fixed, F2 - null   |          5500         |          5666         |
+| L22<sub>1</sub> |  Logit |        F1*F2 - fixed        |          5498         |          5664         |
+| L32<sub>0</sub> |  Logit |    F1*Subject, F2- fixed    |          5499         |          5683         |
+| L42<sub>0</sub> |  Logit |      F1*Item, F2- fixed     |          5500         |          5682         |
+| P22<sub>0</sub> | Probit |      (F1 + F2) - fixed      | <strong>5486</strong> | <strong>5662</strong> |
 
