@@ -569,5 +569,13 @@ accuracy$score<-as.numeric(accuracy$score=='C')
 
 ```
 
+| Model           | Link | Model Structure for Factors | WAIC | BIC |
+|-----------------|------|-----------------------------|------|-----|
+| L11<sub>0</sub> |      |                             |      |     |
+|                 |      |                             |      |     |
+|                 |      |                             |      |     |
+|                 |      |                             |      |     |
+|                 |      |                             |      |     |
+|                 |      |                             |      |     |
 
 
