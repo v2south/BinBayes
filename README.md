@@ -578,3 +578,9 @@ accuracy$score<-as.numeric(accuracy$score=='C')
 | L42<sub>0</sub> |  Logit |      F1*Item, F2- fixed     |          5500         |          5682         |
 | P22<sub>0</sub> | Probit |      (F1 + F2) - fixed      | <strong>5486</strong> | <strong>5662</strong> |
 
+
+For the preferred model P22<sub>0</sub>, we can plot the posterior density for the effect of clear contrast realtive to degraded contrast, and other posterior densities as follow:
+
+````
+
+```
