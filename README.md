@@ -545,6 +545,8 @@ The study produced trial-by-trial data for K = 73 subjects. Each subject experie
 * 240 items.
 * Total number of observations is 17,520.
 * Overall accuracy 95.2%
+
+
 Example dataset could be downloaed from here.
 
 ```
