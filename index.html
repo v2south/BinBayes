@@ -12,9 +12,7 @@
   <body>
     <section class="page-header">
       <h1 class="project-name">A Bayesian Approach to Logistic/Probit Mixed Effects Analysis of Repeated Measures Accuracy Studies</h1>
-      <h2 class="project-tagline"> Yin Song <sup> a </sup> , Farouk Nathoo <sup> a </sup>, Michael E. J. Masson <sup> b </sup> </h2>
-      <h4 class="project-tagline"> a. Department of Mathematics and Statistics, University of Victoria </h4>
-      <h4 class="project-tagline"> b. Department of Psychology, University of Victoria </h4>
+      <h2 class="project-tagline">Yin Song, Farouk Nathoo, Michael E. J. Masson </h2>
       <a href="https://github.com/v2south/BinBayes" class="btn">View on GitHub</a>
       <a href="https://github.com/v2south/BinBayes/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/v2south/BinBayes/tarball/master" class="btn">Download .tar.gz</a>
@@ -33,25 +31,38 @@
 <a href="https://cran.r-project.org/web/packages/rjags/index.html"><strong>rjags</strong></a>. 
 To install these R packages, please see this <a href="https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages">manual</a> from CRAN. </p>
 
-<p>The R function BinBayes.R requires four input variables as follows:</p>
+<p>The R function BinBayes.R requires five input variables as follows:</p>
 
 <ul>
-<li><p><strong> m_data </strong> is a matrix or data frame containing the data from your study. This data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be in the
-following order: subject identifier, item identifier, identifier for experimental condition, accuracy response..</p></li>
-<li><p><strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.</p></li>
 <li>
-<strong> model </strong>  is a string taking five possible values as follows:
+<strong>factor</strong> is a numeric indicator. 1 is for single factor design and 2 is for two factor design. </li>
+<li>
+<p><strong> m_data </strong> is a matrix or data frame containing the data from your study. </p>
 
 <ul>
-<li>"M1", baseline model with random subject and item effects with no effect of experimental condition.</li>
-<li>"M2", model with random subject and item effects and with a fixed effect for the experimental condition.</li>
-<li>"M3", model with random subject and item effects and where the effect of experimental condition varies across subjects.</li>
-<li>"M4", model with random subject and item effects and where the effect of experimental condition varies across items.</li>
-<li>"M5", model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.</li>
+<li>For <strong>single factor design</strong>, this data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be in the
+following order: subject identifier, item identifier, identifier for experimental condition, accuracy response.</li>
+<li>For <strong>two factor design</strong>, this data frame should have five columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for factor 1; the fourth column contains the identifier for factor 2; the fifth column holds a binary valued accuracy response. These columns should be in the
+following order: subject identifier, item identifier, identifier for factor 1, identifier for factor 2, accuracy response.</li>
 </ul>
 </li>
+<li><p><strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.</p></li>
 <li>
-<strong>baseline</strong> is a string that specifies the label for the baseline condition. The software will automatically pick one condition as baseline if no specific condition is given.</li>
+<p><strong> model_struct </strong> specifies the model structure. </p>
+
+<p>For <strong>single factor design</strong>,  this is a numeric number taking five possible values as follows:</p>
+
+<ul>
+<li>1, baseline model with random subject and item effects with no effect of experimental condition.</li>
+<li>2, model with random subject and item effects and with a fixed effect for the experimental condition.</li>
+<li>3, model with random subject and item effects and where the effect of experimental condition varies across subjects.</li>
+<li>4, model with random subject and item effects and where the effect of experimental condition varies across items.</li>
+<li>5, model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.</li>
+</ul>
+
+<p>For <strong>two factor design</strong>, this is a vector of three elements. The first two, which specify the model structure for factor 1 and factor 2, can take the values from 1 to 5 similar to single factor design. The last element takes two values that specifies whether the interaction between two factors exist. 0 denotes no interaction and 1 denotes interaction.</p>
+</li>
+<li><p><strong>baseline</strong> is a string for single factor design that specifies the label for the baseline condition. The software will automatically pick one condition as baseline if no specific condition is given. For two factor design, this is a vector of two string variables that specifies the label of bassline condition for factor 1 and factor 2 respectively.</p></li>
 </ul>
 
 <p>As illustrated below, the output of the BinBayes.R function will consist of an object having five components with the following names:</p>
@@ -72,9 +83,9 @@ following order: subject identifier, item identifier, identifier for experimenta
 <p>We will illustrate how to use BinBayes.R in the following two examples. Download BinBayes.R from <a href="https://raw.githubusercontent.com/v2south/BinBayes/master/R_script/BinBayes.R">here</a>.</p>
 
 <h2>
-<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example 1</h2>
+<a id="example-1---single-factor-design" class="anchor" href="#example-1---single-factor-design" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example 1 - Single Factor Design</h2>
 
-<p>For this example, we were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. The dataset for this example can be downloaded <a href="https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt">here</a> and it has::</p>
+<p>For this example, we were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. The dataset for this example can be downloaded here <a href="https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt">here</a> and it has::</p>
 
 <ul>
 <li> 30 subjects</li>
@@ -86,8 +97,7 @@ following order: subject identifier, item identifier, identifier for experimenta
 
 <p>To get started, let's download the BinBaye.R and save it in the same directory or folder with dataset Scenes3_Bayesian.txt.</p>
 
-<pre><code># Path is the file directory where you save the BinBayes.R and 
-# dataset Prime3_Bayesian.txt should be in the same directory
+<pre><code># Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
  &gt; path &lt;- "/Users/Yin/Dropbox/BinBayes/BinBayes.R"
 
  # Load BinBayes.R
@@ -99,8 +109,7 @@ following order: subject identifier, item identifier, identifier for experimenta
  &gt; library(rjags)
 
 # Read data into R
-&gt; accuracy &lt;- read.table("/Users/Yin/Dropbox/BinBayes/Scenes3_Bayesian.txt", header=TRUE, 
-na.strings='.',colClasses=c('factor','factor','factor','numeric'))
+&gt; accuracy &lt;- read.table("/Users/Yin/Dropbox/BinBayes/Scenes3_Bayesian.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','factor','numeric'))
 &gt; #remove cases with missing values
 &gt; accuracy&lt;-na.omit(accuracy)
 &gt; accuracy
@@ -136,7 +145,7 @@ na.strings='.',colClasses=c('factor','factor','factor','numeric'))
 
 <pre><code>
 # Model 1 with Logit link
-&gt; L1_result &lt;- BinBayes(accuracy, "M1", "Logit")
+&gt; L1_result &lt;- BinBayes(1,accuracy, 1, "Logit")
 Loading required package: Matrix
 Linked to JAGS 3.4.0
 Loaded modules: basemod,bugs
@@ -158,7 +167,7 @@ Levels: alt new std
 
 
 # Model 2 with Logit link
-&gt; L2_result &lt;- BinBayes(accuracy, "M2", "Logit")
+&gt; L2_result &lt;- BinBayes(1, accuracy, 2, "Logit")
 &gt; L2_result$bic
 [1] 2020.746
 &gt; L2_result$waic
@@ -259,7 +268,7 @@ sigma_b   0.70411 0.1253 0.0008858       0.001730
 
 <p>Also, notice that the baseline condition is <em>std</em> for both models since we didn't specify the baseline condition at beginning. We can also set the baseline to <em>new</em> as follows:</p>
 
-<pre><code>&gt; L2_new_result &lt;- BinBayes(accuracy, "M2", "Logit","new")
+<pre><code>&gt; L2_new_result &lt;- BinBayes(1,accuracy, 2, "Logit","new")
 &gt; L2_new_result$bic
 [1] 2020.746
 &gt; L2_new_result$waic
@@ -325,7 +334,7 @@ sigma_b   0.7007261 0.1246 0.0008812       0.001655
 </code></pre>
 
 <h2>
-<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example 2</h2>
+<a id="example-2---single-factor-design" class="anchor" href="#example-2---single-factor-design" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example 2 - Single Factor Design</h2>
 
 <p>For this example, we were investigating the influence of a semantic context on the identification of printed words shown either under clear (high contrast) or degraded (low contrast) conditions. The semantic context consisted of a prime word presented in advance of the target item. On critical trials, the target item was a word and on other trials the target was a nonword. The task was to classify the target on each trial as a word or a nonword (this is called a "lexical decision" task). Our interest is confined to trials with word targets. The prime word was either semantically related or unrelated to the target word (e.g., granite-STONE vs. attack-FLOWER), and the target word was presented either in clear or degraded form. Combining these two factors produced four conditions (related-clear, unrelated-clear, related-degraded, unrelated-degraded). For the current analysis, accuracy of response was the dependent measure. The dataset for this example can be downloaded from <a href="https://github.com/v2south/BinBayes/blob/master/dataset/Prime3_Bayesian.txt">here</a> and it has:</p>
 
@@ -339,16 +348,14 @@ sigma_b   0.7007261 0.1246 0.0008812       0.001655
 
 <p>To get started, let's download the BinBaye.R and save it in the same directory or folder with dataset Prime3_Bayesian.txt.</p>
 
-<pre><code> # Path is the file directory where you save the BinBayes.R and 
-# dataset Prime3_Bayesian.txt should be in the same directory
+<pre><code> # Path is the file directory where you save the BinBayes.R and dataset Prime3_Bayesian.txt should be in the same directory
  &gt; path &lt;- "/Users/Yin/Dropbox/BinBayes/BinBayes.R"
 
  # Load BinBayes.R
  &gt; source(path)
 
  # Read the data into R
- &gt; accuracy &lt;- read.table("/Users/Yin/Dropbox/BinBayes/Prime3_Bayesian.txt",header=TRUE, 
- na.strings=’.’,colClasses=c(’factor’,’factor’,’factor’,’numeric’))
+ &gt; accuracy &lt;- read.table("/Users/Yin/Dropbox/BinBayes/Prime3_Bayesian.txt",header=TRUE, na.strings=’.’, colClasses=c(’factor’,’factor’,’factor’,’numeric’))
  &gt; accuracy
      subj itemID cond Acc
 1     S01   i001   UD   1
@@ -370,14 +377,14 @@ sigma_b   0.7007261 0.1246 0.0008812       0.001655
 <p>Suppose we are interested in comparing model 1, model 2 and model 4 with Logit as the link function. We can compute the BIC and WAIC values as:</p>
 
 <pre><code># Model 1 with Logit link
-&gt; L1_result &lt;- BinBayes(accuracy,"M1","Logit")
+&gt; L1_result &lt;- BinBayes(1,accuracy,1,"Logit")
 &gt; L1_result$bic
 [1] 2927.731
 &gt; L1_result$waic
 [1] 2826.157
 
 # Model 2 with Logit link
-&gt; L2_result &lt;- BinBayes(accuracy,"M2","Logit")
+&gt; L2_result &lt;- BinBayes(1,accuracy,2,"Logit")
 &gt; L2_result$bic
 [1] 2925.133
 &gt; L2_result$waic
@@ -385,7 +392,7 @@ sigma_b   0.7007261 0.1246 0.0008812       0.001655
 
 
  # Model 4 with Logit link
-&gt; L4_result &lt;- BinBayes(accuracy, "M4", "Logit")
+&gt; L4_result &lt;- BinBayes(1,accuracy, 4, "Logit")
 &gt; L4_result$bic
 [1] 2996.642
 &gt; L4_result$waic
@@ -572,8 +579,8 @@ Levels: RC RD UC UD
 Levels: RC RD UC UD
 
 # Notice that RD is the second condition, we need to find the location of alpha[2] and all alpha_a[2,]s.
-# By observing from varnames() result, we can see that alpha[2] is on the 122 column and 
-# all alpha_a[2,]s is located from 126 to 604 by every 4 columns. We have 120 items for each condition.
+# By observing from varnames() result, we can see that alpha[2] is on the 122 column and all alpha_a[2,]s is located from 126 to 604 by every 4 columns.
+# We have 120 items for each condition.
 
 &gt; index &lt;- seq(from=126, to=604, by=4)
 
@@ -622,7 +629,7 @@ Levels: RC RD UC UD
 -0.1418271  1.4581923 
 </code></pre>
 
-<p>Also, a kernel density estimation for item identified above, which is the posterior distribution for the effect of experimental condition RD specific to item i020, could be plotted as: </p>
+<p>Also, a kernel density estimation for item identified above, which is the posterior distribution for the effect of experimental condition RD specific to item i020, could be plotted as:</p>
 
 <pre><code># Posterior distribution for the effect of experimental condition RD specific to item i020.
 p_99 &lt;- density(rd_item[,99])
@@ -631,7 +638,204 @@ plot(p_99,main="Kernel Density Estimation for Item i020")
 
 <p><img src="https://cloud.githubusercontent.com/assets/2337149/14234838/334d05d8-f9a2-11e5-9195-e406dc2dc4c7.png" width="800"></p>
 
+<h2>
+<a id="example-3---two-factor-design" class="anchor" href="#example-3---two-factor-design" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example 3 - Two Factor Design</h2>
+
+<p>The study produced trial-by-trial data for K = 73 subjects. Each subject experienced 480 trials in which a word prime was presented (requiring no response from the observer), followed by either a word or a nonword as a target that required a response. Subjects classified the targets as Word or Nonword. Our interest for the current analysis is in the accuracy (or error) rate for trials with Word targets, so trials with Nonword targets (240 trials per subject) are excluded. The word targets were words that occur with either high (HF) or low frequency (LF) in English (e.g., MORE vs TUSK). Word frequency is the first factor and the corresponding baseline condition in this case is LF. The second factor included in our analysis is viewing condition, whereby target items are presented either in Clear (full contrast) or Degraded (low contrast) displays, and we take the baseline condition for this factor to be the Degraded condition. That is:</p>
+
+<ul>
+<li>73 subjects.</li>
+<li>2 conditions for first factor. </li>
+<li>2 conditions for second factor. </li>
+<li>240 items.</li>
+<li>Total number of observations is 17,520.</li>
+<li>Overall accuracy 95.2%</li>
+</ul>
+
+<p>Example dataset could be downloaed from <a href="https://raw.githubusercontent.com/v2south/BinBayes/master/dataset/Prime1A%20raw%20collated.txt">here.</a></p>
+
+<pre><code>#read in dataset two factor dataset 
+accuracy &lt;- read.table("/Users/Yin/Dropbox/data_set/Prime1A raw collated.txt", header=TRUE, na.strings='.',colClasses=c('factor','factor','numeric','factor','factor','factor','factor','factor','numeric','factor'))
+
+#only keep the columns that are required for this analysis
+keep&lt;-c('S', 'TargetShown','Contrast', 'TargetType', 'score')
+accuracy&lt;-accuracy[,keep]
+
+#remove trials where TargetType=NW
+accuracy&lt;-accuracy[accuracy$TargetType!='NW',]
+accuracy&lt;-droplevels(accuracy) #make sure NW is dropped as an unused factor level
+
+#remove cases with missing values 
+accuracy&lt;-na.omit(accuracy)
+
+#convert the response to 0/1
+accuracy$score&lt;-as.numeric(accuracy$score=='C')
+
+# 
+P22_0 &lt;- BinBayes(factor = 2, m_data = accuracy, model_struct=c(2, 2, 0), link = "Probit")
+  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
+  |**************************************************| 100%
+  |**************************************************| 100%
+  |**************************************************| 100%
+
+# BIC
+&gt; P22_0$bic
+[1] 5662.337
+
+# WAIC
+&gt; P22_0$waic
+[1] 5486.221
+
+# Baseline condition for factor 1 and factor 2
+&gt; P22_0$baseline
+[[1]]
+[1] Degraded
+Levels: Clear Degraded
+
+[[2]]
+[1] LF
+Levels: HF LF
+
+
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="center">Model</th>
+<th align="center">Link</th>
+<th align="center">Model Structure for Factors</th>
+<th align="center">WAIC</th>
+<th align="center">BIC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">L11<sub>0</sub>
+</td>
+<td align="center">Logit</td>
+<td align="center">Null</td>
+<td align="center">5515</td>
+<td align="center">5673</td>
+</tr>
+<tr>
+<td align="center">L21<sub>0</sub>
+</td>
+<td align="center">Logit</td>
+<td align="center">F1 -  fixed, F2 - null</td>
+<td align="center">5500</td>
+<td align="center">5666</td>
+</tr>
+<tr>
+<td align="center">L22<sub>1</sub>
+</td>
+<td align="center">Logit</td>
+<td align="center">F1*F2 - fixed</td>
+<td align="center">5498</td>
+<td align="center">5664</td>
+</tr>
+<tr>
+<td align="center">L32<sub>0</sub>
+</td>
+<td align="center">Logit</td>
+<td align="center">F1*Subject, F2- fixed</td>
+<td align="center">5499</td>
+<td align="center">5683</td>
+</tr>
+<tr>
+<td align="center">L42<sub>0</sub>
+</td>
+<td align="center">Logit</td>
+<td align="center">F1*Item, F2- fixed</td>
+<td align="center">5500</td>
+<td align="center">5682</td>
+</tr>
+<tr>
+<td align="center">P22<sub>0</sub>
+</td>
+<td align="center">Probit</td>
+<td align="center">(F1 + F2) - fixed</td>
+<td align="center"><strong>5486</strong></td>
+<td align="center"><strong>5662</strong></td>
+</tr>
+</tbody>
+</table>
+
+<p>To get the 95% HPD interval from the posterior distribution, we can use the <strong><em>HPDinterval()</em></strong> function as:</p>
+
+<pre><code>&gt; HPDinterval(P2_0$post_summary)
+[[1]]
+                lower        upper
+a[1]     -0.219135797  0.749688114
+a[2]     -0.341859685  0.639471948
+a[3]     -0.720883002  0.076366054
+a[4]     -0.334839962  0.640257030
+a[5]     -0.306967616  0.688504212
+a[6]     -0.339510833  0.659315384
+a[7]     -0.627972208  0.211136797
+a[8]     -1.252435170 -0.627273741
+a[9]     -0.570881030  0.212873340
+a[10]    -0.212541085  0.853847137
+a[11]    -0.232267882  0.711368142
+a[12]    -0.703102888  0.032425345
+a[13]    -0.408160671  0.522426867
+a[14]    -1.309048728 -0.695067831
+a[15]    -0.226041495  0.717749790
+a[16]    -0.532365131  0.330189850
+a[17]    -0.106462096  0.919521026
+.
+.
+.
+.
+.
+</code></pre>
+
+<p>For the preferred model P22<sub>0</sub>, we can plot the posterior density for the effect of clear contrast realtive to degraded contrast, and other posterior densities as follow:</p>
+
+<pre><code># Using and varnames() function to locate the correspoding columns.
+&gt; varnames(P22_0$post_summary)
+  [1] "a[1]"     "a[2]"     "a[3]"     "a[4]"     "a[5]"     "a[6]"    
+  [7] "a[7]"     "a[8]"     "a[9]"     "a[10]"    "a[11]"    "a[12]"   
+ [13] "a[13]"    "a[14]"    "a[15]"    "a[16]"    "a[17]"    "a[18]"   
+ [19] "a[19]"    "a[20]"    "a[21]"    "a[22]"    "a[23]"    "a[24]"   
+.
+.
+.
+.
+241] "alpha[1]" "alpha[2]" "b[1]"     "b[2]"     "b[3]"     "b[4]"    
+[247] "b[5]"     "b[6]"     "b[7]"     "b[8]"     "b[9]"     "b[10]"   
+[253] "b[11]"    "b[12]"    "b[13]"    "b[14]"    "b[15]"    "b[16]"   
+[259] "b[17]"    "b[18]"    "b[19]"    "b[20]"    "b[21]"    "b[22]"   
+[265] "b[23]"    "b[24]"    "b[25]"    "b[26]"    "b[27]"    "b[28]"   
+[271] "b[29]"    "b[30]"    "b[31]"    "b[32]"    "b[33]"    "b[34]"   
+[277] "b[35]"    "b[36]"    "b[37]"    "b[38]"    "b[39]"    "b[40]"   
+[283] "b[41]"    "b[42]"    "b[43]"    "b[44]"    "b[45]"    "b[46]"   
+[289] "b[47]"    "b[48]"    "b[49]"    "b[50]"    "b[51]"    "b[52]"   
+[295] "b[53]"    "b[54]"    "b[55]"    "b[56]"    "b[57]"    "b[58]"   
+[301] "b[59]"    "b[60]"    "b[61]"    "b[62]"    "b[63]"    "b[64]"   
+[307] "b[65]"    "b[66]"    "b[67]"    "b[68]"    "b[69]"    "b[70]"   
+[313] "b[71]"    "b[72]"    "b[73]"    "beta0"    "gamma[1]" "gamma[2]"
+[319] "sigma_a"  "sigma_b" 
+
+# Using the densplot() from coda package to plot the posterior density
+
+&gt; library(coda)
+&gt; par(mfrow=c(2, 2))
+&gt; densplot(P22_0$post_summary[,242], xlab = expression(alpha[2]), ylab="Posterior Density")
+&gt; title(main="a) Clear Relative to Degraded")
+&gt; densplot(P22_0$post_summary[,318], xlab = expression(gamma[2]), ylab="Posterior Density")
+&gt; title(main="b) HF Relative to LF")
+&gt; densplot(P22_0$post_summary[,319], xlab = expression(sigma[a]), ylab="Posterior Density")
+&gt; title(main="c) SD of Item Random Effect")
+&gt; densplot(P22_0$post_summary[,320], xlab = expression(sigma[b]), ylab="Posterior Density")
+&gt; title(main="d) SD of Subject Random Effect")
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/v2south/BinBayes/master/images/two_factor-1.png" width="800"></p>
+
       <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/v2south/BinBayes">A Bayesian Approach to Logistic/Probit Mixed Effects Analysis of Repeated Measures Accuracy Studies</a> is maintained by <a href="https://github.com/v2south">v2south</a>.</span>
+
         <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
 
