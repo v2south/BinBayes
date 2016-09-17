@@ -6,32 +6,43 @@ BinBayes.R is the software implementation for the paper "A Bayesian approach for
 
 We assume that the user has both the [<strong>R</strong>](https://cran.r-project.org/mirrors.html) and [<strong>JAGS</strong>](http://mcmc-jags.sourceforge.net/) software packages installed and is familiar with the basic structure and syntax of the R language. In addition, we also require the following three R packages: [<strong>coda</strong>](https://cran.r-project.org/web/packages/coda/index.html),[ <strong>lme4</strong>](https://cran.r-project.org/web/packages/lme4/index.html) and 
 [<strong>rjags</strong>](https://cran.r-project.org/web/packages/rjags/index.html). 
-To install these R packages, please see this [manual](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-packages) from CRAN. 
+These packages can be installed from within R using the Package Installer from the main menu. To set up your system for using JAGS, do the following:
+ 
+ * Download the current [version](https://sourceforge.net/projects/mcmc-jags/files/JAGS/) of JAGS (4.2 as of 9/17/2016).
+ 
+ *  Install the current [rjags](http://cran.r-project.org/web/packages/rjags/index.html) package from CRAN. This can be done simply from within R using the Package Installer.
+
+Once you have done that, a simple call to library('rjags') will be enough to run JAGS from inside of R.
 
 The R function BinBayes.R requires five input variables as follows:
 
-* <strong>factor</strong> is a numeric indicator. 1 is for single factor design and 2 is for two factor design. 
+* <strong>factor</strong> is a numeric indicator. 1 is for single-factor design and 2 is for two-factor design. 
+
+
 * <strong> m_data </strong> is a matrix or data frame containing the data from your study. 
-  * For <strong>single factor design</strong>, this data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be in the
+  * For <strong>single-factor design</strong>, this data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be in the
 following order: subject identifier, item identifier, identifier for experimental condition, accuracy response.
-  * For <strong>two factor design</strong>, this data frame should have five columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for factor 1; the fourth column contains the identifier for factor 2; the fifth column holds a binary valued accuracy response. These columns should be in the
+  * For <strong>two-factor design</strong>, this data frame should have five columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for factor 1; the fourth column contains the identifier for factor 2; the fifth column holds a binary valued accuracy response. These columns should be in the
 following order: subject identifier, item identifier, identifier for factor 1, identifier for factor 2, accuracy response.
 
 * <strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.
+
+
 * <strong> model_struct </strong> specifies the model structure. 
  
-  For <strong>single factor design</strong>,  this is a numeric number taking five possible values as follows:
+  For <strong>single-factor design</strong>,  this is a number taking five possible values as follows:
   * 1, baseline model with random subject and item effects with no effect of experimental condition.
   * 2, model with random subject and item effects and with a fixed effect for the experimental condition.
   * 3, model with random subject and item effects and where the effect of experimental condition varies across subjects.
   * 4, model with random subject and item effects and where the effect of experimental condition varies across items.
   * 5, model with random subject and item effects and where the effect of experimental condition varies across both subjects and items.
   
-  For <strong>two factor design</strong>, this is a vector of three elements. The first two, which specify the model structure for factor 1 and factor 2, can take the values from 1 to 5 similar to single factor design. The last element takes two values that specifies whether the interaction between two factors exist. 0 denotes no interaction and 1 denotes interaction.
+  For <strong>two-factor design</strong>, this is a vector of three elements. The first two elements specify the model structure for
+factor 1 and factor 2 respectively. Each element can take values from 1 to 5 as with the specification of the single-factor design.The last element is either 0 or 1; if this value is 0 then no interaction between the two factors is included in the model while if this value is 1 an interaction is included in the model.
 
 
  
-* <strong>baseline</strong> is a string for single factor design that specifies the label for the baseline condition. The software will automatically pick one condition as baseline if no specific condition is given. For two factor design, this is a vector of two string variables that specifies the label of bassline condition for factor 1 and factor 2 respectively.
+* <strong>baseline</strong> is a string for single-factor design that specifies the label for the baseline condition. The software will automatically pick one condition as baseline if no specific condition is given. For two-factor design, this is a vector of two string variables that specifies the label of the bassline condition for factor 1 and factor 2 respectively.
 
 
 As illustrated below, the output of the BinBayes.R function will consist of an object having five components with the following names:
@@ -42,10 +53,11 @@ As illustrated below, the output of the BinBayes.R function will consist of an o
 * <strong>condition_level</strong> is the ordered condition level in the model. The first level would be the baseline if no specific condition is given as baseline condition.
 * <strong>baseline</strong> is the baseline condition.
 
-We will illustrate how to use BinBayes.R in the following two examples. Download BinBayes.R from [here](https://raw.githubusercontent.com/v2south/BinBayes/master/R_script/BinBayes.R).
+We will illustrate how to use BinBayes.R in the following three examples. Download BinBayes.R from [here](https://raw.githubusercontent.com/v2south/BinBayes/master/R_script/BinBayes.R) and save the directory to a known location on your hard drive.
 
 
-## Example 1 - Single Factor Design
+
+## Example 1 - Single-Factor Design
 
 
 For this example, we were investigating the development of memory for visual scenes that occurs when one searches a scene for a particular object. We were specifically interested in what subjects might learn about other, non-target objects present in the scene while searching for the target object. In the first phase of the experiment, subject searched 80 scenes for a particular target object. In the test phase, they again searched the 80 scenes from the study phase as well as a set of 40 new scenes (new condition), looking for a specific target object in each case. For 40 of the scenes that had appeared in the first phase of the experiment, the target object was the same as in the first phase (studied condition), and for the other 40 scenes a new target was designated (alternate condition). In all 120 of these critical scenes, the target was present in the scene. Accuracy reflects whether or not the target was detected in the scene. Our primary interest was in whether there would be a benefit in the alternate condition, relative to the new condition, for having previously searched the scene (albeit for a different target). So the independent variable was scene type (studied, alternate, new) and the dependent variable was successful or failed detection of the target. There was also an additional set of scenes that did not contain the target that subjects were asked to search for, just to ensure that the task would be meaningful. Performance with these items was not analyzed. The dataset for this example can be downloaded here [here](https://github.com/v2south/BinBayes/blob/master/dataset/Scenes3_Bayesian.txt) and it has::
@@ -273,7 +285,7 @@ sigma_b   0.7007261 0.1246 0.0008812       0.001655
 
 
 
-## Example 2 - Single Factor Design
+## Example 2 - Single-Factor Design
 
 For this example, we were investigating the influence of a semantic context on the identification of printed words shown either under clear (high contrast) or degraded (low contrast) conditions. The semantic context consisted of a prime word presented in advance of the target item. On critical trials, the target item was a word and on other trials the target was a nonword. The task was to classify the target on each trial as a word or a nonword (this is called a "lexical decision" task). Our interest is confined to trials with word targets. The prime word was either semantically related or unrelated to the target word (e.g., granite-STONE vs. attack-FLOWER), and the target word was presented either in clear or degraded form. Combining these two factors produced four conditions (related-clear, unrelated-clear, related-degraded, unrelated-degraded). For the current analysis, accuracy of response was the dependent measure. The dataset for this example can be downloaded from [here](https://github.com/v2south/BinBayes/blob/master/dataset/Prime3_Bayesian.txt) and it has:
 
@@ -535,7 +547,7 @@ plot(p_99,main="Kernel Density Estimation for Item i020")
 <img src="https://cloud.githubusercontent.com/assets/2337149/14234838/334d05d8-f9a2-11e5-9195-e406dc2dc4c7.png" width="800">
 
 
-## Example 3 - Two Factor Design
+## Example 3 - Two-Factor Design
 
 The study produced trial-by-trial data for K = 73 subjects. Each subject experienced 480 trials in which a word prime was presented (requiring no response from the observer), followed by either a word or a nonword as a target that required a response. Subjects classified the targets as Word or Nonword. Our interest for the current analysis is in the accuracy (or error) rate for trials with Word targets, so trials with Nonword targets (240 trials per subject) are excluded. The word targets were words that occur with either high (HF) or low frequency (LF) in English (e.g., MORE vs TUSK). Word frequency is the first factor and the corresponding baseline condition in this case is LF. The second factor included in our analysis is viewing condition, whereby target items are presented either in Clear (full contrast) or Degraded (low contrast) displays, and we take the baseline condition for this factor to be the Degraded condition. That is:
 
@@ -597,12 +609,12 @@ Levels: HF LF
 
 |      Model      |  Link  | Model Structure for Factors |          WAIC         |          BIC          |
 |:---------------:|:------:|:---------------------------:|:---------------------:|:---------------------:|
-| L11<sub>0</sub> |  Logit |             Null            |          5515         |          5673         |
-| L21<sub>0</sub> |  Logit |    F1 -  fixed, F2 - null   |          5500         |          5666         |
-| L22<sub>1</sub> |  Logit |        F1*F2 - fixed        |          5498         |          5664         |
-| L32<sub>0</sub> |  Logit |    F1*Subject, F2- fixed    |          5499         |          5683         |
-| L42<sub>0</sub> |  Logit |      F1*Item, F2- fixed     |          5500         |          5682         |
-| P22<sub>0</sub> | Probit |      (F1 + F2) - fixed      | <strong>5486</strong> | <strong>5662</strong> |
+| LM<sub>0</sub>N<sub>0</sub>I<sub>0</sub> |  Logit |             Null            |          5515         |          5673         |
+| LM<sub>2</sub>N<sub>1</sub>I<sub>0</sub> |  Logit |    F1 -  fixed, F2 - null   |          5500         |          5666         |
+| LM<sub>2</sub>N<sub>2</sub>I<sub>1</sub> |  Logit |        F1*F2 - fixed        |          5498         |          5664         |
+| LM<sub>3</sub>N<sub>2</sub>I<sub>0</sub> |  Logit |    F1*Subject, F2- fixed    |          5499         |          5683         |
+| LM<sub>4</sub>N<sub>2</sub>I<sub>0</sub> |  Logit |      F1*Item, F2- fixed     |          5500         |          5682         |
+| PM<sub>2</sub>N<sub>2</sub>I<sub>0</sub> | Probit |      (F1 + F2) - fixed      | <strong>5486</strong> | <strong>5662</strong> |
 
 
 To get the 95% HPD interval from the posterior distribution, we can use the <strong>*HPDinterval()*</strong> function as:
