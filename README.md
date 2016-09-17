@@ -567,6 +567,32 @@ accuracy<-na.omit(accuracy)
 #convert the response to 0/1
 accuracy$score<-as.numeric(accuracy$score=='C')
 
+# 
+P22_0 <- BinBayes(factor = 2, m_data = accuracy, model_struct=c(2, 2, 0), link = "Probit")
+  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
+  |**************************************************| 100%
+  |**************************************************| 100%
+  |**************************************************| 100%
+  
+# BIC
+> P22_0$bic
+[1] 5662.337
+
+# WAIC
+> P22_0$waic
+[1] 5486.221
+
+# Baseline condition for factor 1 and factor 2
+> P22_0$baseline
+[[1]]
+[1] Degraded
+Levels: Clear Degraded
+
+[[2]]
+[1] LF
+Levels: HF LF
+
+
 ```
 
 |      Model      |  Link  | Model Structure for Factors |          WAIC         |          BIC          |
@@ -579,8 +605,77 @@ accuracy$score<-as.numeric(accuracy$score=='C')
 | P22<sub>0</sub> | Probit |      (F1 + F2) - fixed      | <strong>5486</strong> | <strong>5662</strong> |
 
 
-For the preferred model P22<sub>0</sub>, we can plot the posterior density for the effect of clear contrast realtive to degraded contrast, and other posterior densities as follow:
-
-````
+To get the 95% HPD interval from the posterior distribution, we can use the <strong>*HPDinterval()*</strong> function as:
 
 ```
+> HPDinterval(P2_0$post_summary)
+[[1]]
+                lower        upper
+a[1]     -0.219135797  0.749688114
+a[2]     -0.341859685  0.639471948
+a[3]     -0.720883002  0.076366054
+a[4]     -0.334839962  0.640257030
+a[5]     -0.306967616  0.688504212
+a[6]     -0.339510833  0.659315384
+a[7]     -0.627972208  0.211136797
+a[8]     -1.252435170 -0.627273741
+a[9]     -0.570881030  0.212873340
+a[10]    -0.212541085  0.853847137
+a[11]    -0.232267882  0.711368142
+a[12]    -0.703102888  0.032425345
+a[13]    -0.408160671  0.522426867
+a[14]    -1.309048728 -0.695067831
+a[15]    -0.226041495  0.717749790
+a[16]    -0.532365131  0.330189850
+a[17]    -0.106462096  0.919521026
+.
+.
+.
+.
+.
+```
+
+For the preferred model P22<sub>0</sub>, we can plot the posterior density for the effect of clear contrast realtive to degraded contrast, and other posterior densities as follow:
+
+```
+# Using and varnames() function to locate the correspoding columns.
+> varnames(P22_0$post_summary)
+  [1] "a[1]"     "a[2]"     "a[3]"     "a[4]"     "a[5]"     "a[6]"    
+  [7] "a[7]"     "a[8]"     "a[9]"     "a[10]"    "a[11]"    "a[12]"   
+ [13] "a[13]"    "a[14]"    "a[15]"    "a[16]"    "a[17]"    "a[18]"   
+ [19] "a[19]"    "a[20]"    "a[21]"    "a[22]"    "a[23]"    "a[24]"   
+.
+.
+.
+.
+241] "alpha[1]" "alpha[2]" "b[1]"     "b[2]"     "b[3]"     "b[4]"    
+[247] "b[5]"     "b[6]"     "b[7]"     "b[8]"     "b[9]"     "b[10]"   
+[253] "b[11]"    "b[12]"    "b[13]"    "b[14]"    "b[15]"    "b[16]"   
+[259] "b[17]"    "b[18]"    "b[19]"    "b[20]"    "b[21]"    "b[22]"   
+[265] "b[23]"    "b[24]"    "b[25]"    "b[26]"    "b[27]"    "b[28]"   
+[271] "b[29]"    "b[30]"    "b[31]"    "b[32]"    "b[33]"    "b[34]"   
+[277] "b[35]"    "b[36]"    "b[37]"    "b[38]"    "b[39]"    "b[40]"   
+[283] "b[41]"    "b[42]"    "b[43]"    "b[44]"    "b[45]"    "b[46]"   
+[289] "b[47]"    "b[48]"    "b[49]"    "b[50]"    "b[51]"    "b[52]"   
+[295] "b[53]"    "b[54]"    "b[55]"    "b[56]"    "b[57]"    "b[58]"   
+[301] "b[59]"    "b[60]"    "b[61]"    "b[62]"    "b[63]"    "b[64]"   
+[307] "b[65]"    "b[66]"    "b[67]"    "b[68]"    "b[69]"    "b[70]"   
+[313] "b[71]"    "b[72]"    "b[73]"    "beta0"    "gamma[1]" "gamma[2]"
+[319] "sigma_a"  "sigma_b" 
+
+# Using the densplot() from coda package to plot the posterior density
+
+> library(coda)
+> par(mfrow=c(2, 2))
+> densplot(P22_0$post_summary[,242], xlab = expression(alpha[2]), ylab="Posterior Density")
+> title(main="a) Clear Relative to Degraded")
+> densplot(P22_0$post_summary[,318], xlab = expression(gamma[2]), ylab="Posterior Density")
+> title(main="b) HF Relative to LF")
+> densplot(P22_0$post_summary[,319], xlab = expression(sigma[a]), ylab="Posterior Density")
+> title(main="c) SD of Item Random Effect")
+> densplot(P22_0$post_summary[,320], xlab = expression(sigma[b]), ylab="Posterior Density")
+> title(main="d) SD of Subject Random Effect")
+```
+
+
+<img src="https://raw.githubusercontent.com/v2south/BinBayes/master/images/two_factor-1.png" width="800">
