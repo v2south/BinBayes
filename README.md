@@ -547,7 +547,7 @@ The study produced trial-by-trial data for K = 73 subjects. Each subject experie
 * Overall accuracy 95.2%
 
 
-Example dataset could be downloaed from here.
+Example dataset could be downloaed from [here.](https://raw.githubusercontent.com/v2south/BinBayes/master/dataset/Prime1A%20raw%20collated.txt)
 
 ```
 #read in dataset two factor dataset 
