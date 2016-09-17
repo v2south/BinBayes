@@ -8,9 +8,9 @@ We assume that the user has both the [<strong>R</strong>](https://cran.r-project
 [<strong>rjags</strong>](https://cran.r-project.org/web/packages/rjags/index.html). 
 These packages can be installed from within R using the Package Installer from the main menu. To set up your system for using JAGS, do the following:
  
- * Download the current [version](https://sourceforge.net/projects/mcmc-jags/files/JAGS/) of JAGS (4.2 as of 9/17/2016).
+ * Download the current  version of [JAGS](https://sourceforge.net/projects/mcmc-jags/files/JAGS/) (4.2 as of 9/17/2016).
  
- *  Install the current [rjags](http://cran.r-project.org/web/packages/rjags/index.html) package from CRAN. This can be done simply from within R using the Package Installer.
+ * Install the current [rjags](http://cran.r-project.org/web/packages/rjags/index.html) package from CRAN. This can be done simply from within R using the Package Installer.
 
 Once you have done that, a simple call to library('rjags') will be enough to run JAGS from inside of R.
 
