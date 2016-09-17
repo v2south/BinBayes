@@ -15,7 +15,7 @@ The R function BinBayes.R requires five input variables as follows:
   * For <strong>single factor design</strong>, this data frame should have four columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for experimental condition; the fourth column holds a binary valued accuracy response. These columns should be in the
 following order: subject identifier, item identifier, identifier for experimental condition, accuracy response.
   * For <strong>two factor design</strong>, this data frame should have five columns. The first column contains the subject identifier; the second column contains the item identifier; the third column contains the identifier for factor 1; the fourth column contains the identifier for factor 2; the fifth column holds a binary valued accuracy response. These columns should be in the
-following order: subject identifier, item identifier, identifier for factor 1, indetifier for factor 2, accuracy response.
+following order: subject identifier, item identifier, identifier for factor 1, identifier for factor 2, accuracy response.
 
 * <strong>link</strong> is a string that specifies the link function as ”Logit” or ”Probit”.
 * <strong> model_struct </strong> specifies the model structure. 
