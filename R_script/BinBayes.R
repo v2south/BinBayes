@@ -101,7 +101,7 @@ BinBayes <- function(factor, m_data, model_struct, link,baseline=NULL)
 		else if (M == "M2_Logit")
   {
     ##### Compute the BIC
-    L2<-glmer(Acc~cond+(1|subj)+(1|itemID),data=accuracy,family=binomial(logit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
+    L2<-glmer(Acc~cond+(1|subj)+(1|itemID),data=m_data,family=binomial(logit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
     L2.bic<-BIC(L2)
     
     
@@ -168,7 +168,7 @@ update(jags, 1000)
     #random subject and item effects and random effect for condition depending on subjects
     
     # Compute BIC
-    L3<-glmer(Acc~cond+(1+cond|subj)+(1|itemID),data=accuracy,family=binomial(logit),nAGQ=1)
+    L3<-glmer(Acc~cond+(1+cond|subj)+(1|itemID),data=m_data,family=binomial(logit),nAGQ=1)
     L3.bic<-BIC(L3)
     
     # Compute WAIC
@@ -239,7 +239,7 @@ update(jags, 1000)
   
   else if (M == "M4_Logit")
   { 
-  		L4<- glmer(Acc~cond+(1|subj)+(1+cond|itemID),data=accuracy,family=binomial(logit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
+  		L4<- glmer(Acc~cond+(1|subj)+(1+cond|itemID),data=m_data,family=binomial(logit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
 
 L4.bic<- BIC(L4)
 		
@@ -309,7 +309,7 @@ update(jags, 1000)
    { 
 	#Model 5, LOGISITC; 
 	#random subject and item effects and random interaction effect for condition depending on items as well as condition depending on subjects
-	L5<-glmer(Acc~cond+(1+cond|subj)+(1+cond|itemID),data=accuracy,family=binomial(logit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
+	L5<-glmer(Acc~cond+(1+cond|subj)+(1+cond|itemID),data=m_data,family=binomial(logit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
 	L5.bic<-BIC(L5)
 	
 	#Model 5, LOGISITC; 
@@ -391,7 +391,7 @@ post <- coda.samples(model=jags, variable.names=c('beta0','sigma_a','sigma_b','a
  
  #Model 1, PROBIT; 
 #no effect for condition and random subject and item effects
-P1<-glmer(Acc~(1|subj)+(1|itemID),data=accuracy,family=binomial(probit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
+P1<-glmer(Acc~(1|subj)+(1|itemID),data=m_data,family=binomial(probit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
 P1.bic<-BIC(P1)
 
 #Model 1, PROBIT; 
@@ -444,7 +444,7 @@ rm(fit)
    { 
 #Model 2, PROBIT; 
 #fixed effect for condition and random subject and item effects
-P2<-glmer(Acc~cond+(1|subj)+(1|itemID),data=accuracy,family=binomial(probit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
+P2<-glmer(Acc~cond+(1|subj)+(1|itemID),data=m_data,family=binomial(probit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
 P2.bic<-BIC(P2)
 
 #Model 2, PROBIT; 
@@ -501,7 +501,7 @@ rm(fit)
    { 	
    	#Model 3, PROBIT; 
 #random subject and item effects and random effect for condition depending on subjects
-P3<-glmer(Acc~cond+(1+cond|subj)+(1|itemID),data=accuracy,family=binomial(probit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
+P3<-glmer(Acc~cond+(1+cond|subj)+(1|itemID),data=m_data,family=binomial(probit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
 P3.bic<-BIC(P3)
 
 #Model 3, PROBIT; 
@@ -571,7 +571,7 @@ rm(fit)
    { 
    	#Model 4, PROBIT; 
 #random subject and item effects and random effect for condition depending on items
-P4<-glmer(Acc~cond+(1|subj)+(1+cond|itemID),data=accuracy,family=binomial(probit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
+P4<-glmer(Acc~cond+(1|subj)+(1+cond|itemID),data=m_data,family=binomial(probit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
 P4.bic<-BIC(P4)
 
 #Model 4, PROBIT; 
@@ -642,7 +642,7 @@ post<-coda.samples(model=jags,variable.names=c('beta0','sigma_a','sigma_b','a','
    	
  #Model 5, PROBIT; 
 #random subject and item effects and random interaction effect for condition depending on items as well as condition depending on subjects
-P5<-glmer(Acc~cond+(1+cond|subj)+(1+cond|itemID),data=accuracy,family=binomial(probit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
+P5<-glmer(Acc~cond+(1+cond|subj)+(1+cond|itemID),data=m_data,family=binomial(probit),nAGQ=1,control=glmerControl(optimizer="bobyqa"))
 P5.bic<-BIC(P5)
 
 #Model 5, PROBIT; 
@@ -712,7 +712,7 @@ S.waic<-nrow(log_lik)
 n.waic<-ncol(log_lik) 
 lpd<-sum(log(colMeans(exp(log_lik))))
 p_waic<-sum(apply(log_lik, 2, var))
-WAIC<--2*(lpd-p_waic)
+P5.waic<--2*(lpd-p_waic)
 rm(log_lik)
 rm(fit)
 
